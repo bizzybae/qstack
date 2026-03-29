@@ -9,15 +9,23 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { atomicWriteSync, sanitizeForFilename, GSTACK_DEV_DIR } from '../../lib/util';
+import { getProjectEvalDir } from './eval-store';
 import type { CostEntry } from '../../lib/eval-format';
-import { resolveTier, tierToModel } from '../../lib/eval-tier';
 
-const HEARTBEAT_PATH = path.join(GSTACK_DEV_DIR, 'e2e-live.json');
+const GSTACK_DEV_DIR = path.join(os.homedir(), '.gstack-dev');
+const HEARTBEAT_PATH = path.join(GSTACK_DEV_DIR, 'e2e-live.json'); // heartbeat stays global
+const PROJECT_DIR = path.dirname(getProjectEvalDir()); // ~/.gstack/projects/$SLUG/
 
 /** Sanitize test name for use as filename: strip leading slashes, replace / with - */
 export function sanitizeTestName(name: string): string {
-  return sanitizeForFilename(name);
+  return name.replace(/^\/+/, '').replace(/\//g, '-');
+}
+
+/** Atomic write: write to .tmp then rename. Non-fatal on error. */
+function atomicWriteSync(filePath: string, data: string): void {
+  const tmp = filePath + '.tmp';
+  fs.writeFileSync(tmp, data);
+  fs.renameSync(tmp, filePath);
 }
 
 export interface CostEstimate {
@@ -140,15 +148,13 @@ export async function runSkillTest(options: {
   const safeName = testName ? sanitizeTestName(testName) : null;
   if (runId) {
     try {
-      runDir = path.join(GSTACK_DEV_DIR, 'e2e-runs', runId);
+      runDir = path.join(PROJECT_DIR, 'e2e-runs', runId);
       fs.mkdirSync(runDir, { recursive: true });
     } catch { /* non-fatal */ }
   }
 
   // Spawn claude -p with streaming NDJSON output. Prompt piped via stdin to
   // avoid shell escaping issues. --verbose is required for stream-json mode.
-  // Model pinned via EVAL_TIER env var (default: sonnet).
-  const evalModel = tierToModel(resolveTier());
   const args = [
     '-p',
     '--model', model,
