@@ -242,6 +242,9 @@ async function askClaude(queueEntry: any): Promise<void> {
       env: {
         ...process.env,
         BROWSE_STATE_FILE: stateFile || '',
+        // Connect to the existing headed browse server instead of launching a new one.
+        // Without this, the child claude starts a headless browser on a random port.
+        BROWSE_PORT: process.env.BROWSE_PORT || '34567',
         // Pin this agent to its tab — prevents cross-tab interference
         // when multiple agents run simultaneously
         BROWSE_TAB: String(tid),
