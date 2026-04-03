@@ -296,7 +296,7 @@ describe('TTFO latency chain', () => {
   test('stopAgent also calls stopFastPoll', () => {
     const stopFn = js.slice(
       js.indexOf('async function stopAgent()'),
-      js.indexOf('async function stopAgent()') + 800,
+      js.indexOf('async function stopAgent()') + 1000,
     );
     expect(stopFn).toContain('stopFastPoll');
   });
@@ -989,12 +989,17 @@ describe('sidebar agent conciseness + no focus stealing', () => {
     expect(promptSection).toContain('Do NOT keep exploring');
   });
 
-  test('sidebar agent uses opus (not sonnet) for prompt injection resistance', () => {
+  test('sidebar agent auto-routes model based on message type', () => {
+    // Model router exists and defaults to opus for analysis tasks
+    expect(serverSrc).toContain('function pickSidebarModel(');
+    expect(serverSrc).toContain("return 'opus'");
+    expect(serverSrc).toContain("return 'sonnet'");
+    // spawnClaude uses the router, not a hardcoded model
     const spawnFn = serverSrc.slice(
       serverSrc.indexOf('function spawnClaude('),
       serverSrc.indexOf('\nfunction ', serverSrc.indexOf('function spawnClaude(') + 1),
     );
-    expect(spawnFn).toContain("'opus'");
+    expect(spawnFn).toContain('pickSidebarModel(userMessage)');
   });
 
   test('switchTab has bringToFront option', () => {
