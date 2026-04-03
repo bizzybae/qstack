@@ -406,9 +406,10 @@ if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
   chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
 }
 
-// Auto-open side panel on install/update — zero friction
+// Auto-open side panel on install/update AND every service worker startup.
+// onInstalled fires on first install / extension update.
+// The startup block below fires every time the browser launches (persistent context reuse).
 chrome.runtime.onInstalled.addListener(async () => {
-  // Small delay to let the browser window fully initialize
   setTimeout(async () => {
     try {
       const [win] = await chrome.windows.getAll({ windowTypes: ['normal'] });
@@ -418,6 +419,16 @@ chrome.runtime.onInstalled.addListener(async () => {
     } catch {}
   }, 1000);
 });
+
+// Also auto-open on every browser launch (not just install)
+setTimeout(async () => {
+  try {
+    const [win] = await chrome.windows.getAll({ windowTypes: ['normal'] });
+    if (win && chrome.sidePanel?.open) {
+      await chrome.sidePanel.open({ windowId: win.id });
+    }
+  } catch {}
+}, 1500);
 
 // ─── Tab Switch Detection ────────────────────────────────────────
 // Notify sidepanel instantly when the user switches tabs in the browser.
