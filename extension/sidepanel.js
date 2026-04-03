@@ -1396,8 +1396,7 @@ function tryConnect() {
   chrome.runtime.sendMessage({ type: 'getPort' }, (resp) => {
     if (resp && resp.port && resp.connected) {
       const url = `http://127.0.0.1:${resp.port}`;
-      // Token arrives via health broadcast from background.js
-      updateConnection(url, null);
+      updateConnection(url, resp.token || null);
     } else {
       setTimeout(tryConnect, 2000);
     }

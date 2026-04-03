@@ -270,7 +270,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 
   if (msg.type === 'getPort') {
-    sendResponse({ port: serverPort, connected: isConnected });
+    sendResponse({ port: serverPort, connected: isConnected, token: authToken });
     return true;
   }
 
