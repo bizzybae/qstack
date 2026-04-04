@@ -915,6 +915,15 @@ async function shutdown() {
   isShuttingDown = true;
 
   console.log('[browse] Shutting down...');
+  // Kill the sidebar-agent daemon process (spawned by cli.ts, detached).
+  // Without this, the agent keeps polling a dead server and spawns confused
+  // claude processes that auto-start headless browsers.
+  try {
+    const { spawnSync } = require('child_process');
+    spawnSync('pkill', ['-f', 'sidebar-agent\\.ts'], { stdio: 'ignore', timeout: 3000 });
+  } catch (err: any) {
+    console.warn('[browse] Failed to kill sidebar-agent:', err.message);
+  }
   // Clean up CDP inspector sessions
   try { detachSession(); } catch (err: any) {
     console.warn('[browse] Failed to detach CDP session:', err.message);
@@ -1265,6 +1274,7 @@ async function start() {
         if (!validateAuth(req)) {
           return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
         }
+        resetIdleTimer(); // Sidebar chat is real user activity
         const body = await req.json();
         const msg = body.message?.trim();
         if (!msg) {
