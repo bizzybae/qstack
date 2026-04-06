@@ -6,6 +6,30 @@ gstack turns Claude Code into a virtual engineering team. **qstack does the same
 
 ---
 
+## The Security Argument
+
+qstack delivers the same structured workflow intelligence as gstack — plan, review, build, ship, QA — without requiring users to grant an autonomous agent direct access to their personal machine's filesystem, shell, and messaging stack.
+
+gstack's documentation contains no disclaimers about these risks. Its [OpenClaw integration path](https://github.com/garrytan/gstack#openclaw) exposes users to a tool that [Microsoft](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/maturity-model-security-governance), [Cisco](https://www.cxtoday.com/security-privacy-compliance/cisco-warns-on-ai-agent-risks-launches-new-security-capabilities/), and [multiple](https://wizardcyber.com/openclaw-autonomous-ai-security-risk/) [security](https://nsfocusglobal.com/openclaw-open-source-ai-agent-application-attack-surface-and-security-risk-system-analysis/) [firms](https://www.akeyless.io/blog/open-claw-security-wakeup-call/) have flagged as requiring operator-level security maturity.
+
+| Risk | gstack + Claude Code | qstack + Perplexity Computer |
+|------|---------------------|-----------------------------|
+| **Filesystem access** | Full read/write to `~/` and beyond. [Backslash Security](https://www.backslash.security/blog/claude-code-security-best-practices) recommends treating Claude Code as "an untrusted intern with root access." | Sandboxed `/home/user/workspace` — isolated cloud VM, destroyed after session |
+| **Shell execution** | Runs arbitrary bash on your machine with your user permissions | Sandboxed bash in a cloud VM (2 vCPU, 8 GB RAM, ~20 GB disk). Cannot touch your local machine |
+| **Credential exposure** | Local `.env` files, SSH keys, AWS credentials, browser cookies all accessible. [Hudson Rock documented](https://www.techradar.com/pro/here-are-the-openclaw-security-risks-you-should-know-about) infostealers harvesting full OpenClaw configs | Credentials managed by OAuth connectors — tokens never exposed to the agent or stored in workspace |
+| **Supply chain risk** | gstack installs into `~/.claude/skills/` with a setup script that compiles binaries. ClawHub skills [execute with full agent privilege](https://wizardcyber.com/openclaw-autonomous-ai-security-risk/) | Skills are plain markdown files. No binaries, no compilation, no code execution at install time |
+| **Prompt injection blast radius** | A compromised agent can exfiltrate files, steal tokens, and [pivot to cloud infrastructure](https://nsfocusglobal.com/openclaw-open-source-ai-agent-application-attack-surface-and-security-risk-system-analysis/) | A compromised agent can only affect the isolated sandbox. No access to local filesystem, SSH keys, or browser sessions |
+| **Persistent state** | Long-running Chromium daemon with stored cookies, OAuth tokens cached in memory | `browser_task` is ephemeral — no persistent browser state between calls |
+| **Network isolation** | No default restrictions. Anthropic [added sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing) but it's opt-in and not default | Cloud sandbox with platform-managed network boundaries |
+
+**If you're tech-savvy and running OpenClaw on isolated hardware with proper restrictions, these concerns don't apply to you.** But if you're a vibe coder pasting commands into your daily-driver MacBook, qstack via Perplexity Computer is the safer route — by architecture, not by vibes.
+
+Microsoft's [Agentic AI Maturity Model](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/maturity-model-security-governance) is clear: as agents gain autonomy, organizations must ensure they "remain secure by design, governed throughout their lifecycle." Cisco's Jeff Schultz [put it plainly](https://www.cxtoday.com/security-privacy-compliance/cisco-warns-on-ai-agent-risks-launches-new-security-capabilities/): "With chatbots, we worried about what they would say. With agents, we worry about what they do."
+
+Perplexity Computer's architecture enforces these boundaries by default. You don't have to configure sandboxing, restrict filesystem paths, or set up network isolation. It's the architecture.
+
+---
+
 ## Why Perplexity Computer Instead of Claude Code
 
 gstack is brilliant engineering — 23+ workflow skills that turn an AI agent into a CEO, eng manager, designer, QA lead, security officer, and release engineer. But it was built for Claude Code on Desktop, which means:
