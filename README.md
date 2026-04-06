@@ -1,333 +1,286 @@
-# gstack
+# qstack
 
-> "I don't think I've typed like a line of code probably since December, basically, which is an extremely large change." — [Andrej Karpathy](https://fortune.com/2026/03/21/andrej-karpathy-openai-cofounder-ai-agents-coding-state-of-psychosis-openclaw/), No Priors podcast, March 2026
+> A fork of [garrytan/gstack](https://github.com/garrytan/gstack) (MIT License), adapted for **Perplexity Computer**.
 
-When I heard Karpathy say this, I wanted to find out how. How does one person ship like a team of twenty? Peter Steinberger built [OpenClaw](https://github.com/openclaw/openclaw) — 247K GitHub stars — essentially solo with AI agents. The revolution is here. A single builder with the right tooling can move faster than a traditional team.
-
-I'm [Garry Tan](https://x.com/garrytan), President & CEO of [Y Combinator](https://www.ycombinator.com/). I've worked with thousands of startups — Coinbase, Instacart, Rippling — when they were one or two people in a garage. Before YC, I was one of the first eng/PM/designers at Palantir, cofounded Posterous (sold to Twitter), and built Bookface, YC's internal social network.
-
-**gstack is my answer.** I've been building products for twenty years, and right now I'm shipping more code than I ever have. In the last 60 days: **600,000+ lines of production code** (35% tests), **10,000-20,000 lines per day**, part-time, while running YC full-time. Here's my last `/retro` across 3 projects: **140,751 lines added, 362 commits, ~115k net LOC** in one week.
-
-**2026 — 1,237 contributions and counting:**
-
-![GitHub contributions 2026 — 1,237 contributions, massive acceleration in Jan-Mar](docs/images/github-2026.png)
-
-**2013 — when I built Bookface at YC (772 contributions):**
-
-![GitHub contributions 2013 — 772 contributions building Bookface at YC](docs/images/github-2013.png)
-
-Same person. Different era. The difference is the tooling.
-
-**gstack is how I do it.** It turns Claude Code into a virtual engineering team — a CEO who rethinks the product, an eng manager who locks architecture, a designer who catches AI slop, a reviewer who finds production bugs, a QA lead who opens a real browser, a security officer who runs OWASP + STRIDE audits, and a release engineer who ships the PR. Twenty-three specialists and eight power tools, all slash commands, all Markdown, all free, MIT license.
-
-This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.
-
-Fork it. Improve it. Make it yours. And if you want to hate on free open source software — you're welcome to, but I'd rather you just try it first.
-
-**Who this is for:**
-- **Founders and CEOs** — especially technical ones who still want to ship
-- **First-time Claude Code users** — structured roles instead of a blank prompt
-- **Tech leads and staff engineers** — rigorous review, QA, and release automation on every PR
-
-## Quick start
-
-1. Install gstack (30 seconds — see below)
-2. Run `/office-hours` — describe what you're building
-3. Run `/plan-ceo-review` on any feature idea
-4. Run `/review` on any branch with changes
-5. Run `/qa` on your staging URL
-6. Stop there. You'll know if this is for you.
-
-## Install — 30 seconds
-
-**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)
-
-### Step 1: Install on your machine
-
-Open Claude Code and paste this. Claude does the rest.
-
-> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a "gstack" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\_\_claude-in-chrome\_\_\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /retro, /investigate, /document-release, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.
-
-### Step 2: Add to your repo so teammates get it (optional)
-
-> Add gstack to this project: run **`cp -Rf ~/.claude/skills/gstack .claude/skills/gstack && rm -rf .claude/skills/gstack/.git && cd .claude/skills/gstack && ./setup`** then add a "gstack" section to this project's CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\_\_claude-in-chrome\_\_\* tools, lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /retro, /investigate, /document-release, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn, and tells Claude that if gstack skills aren't working, run `cd .claude/skills/gstack && ./setup` to build the binary and register skills.
-
-Real files get committed to your repo (not a submodule), so `git clone` just works. Everything lives inside `.claude/`. Nothing touches your PATH or runs in the background.
-
-> **Contributing or need full history?** The commands above use `--depth 1` for a fast install. If you plan to contribute or need full git history, do a full clone instead:
-> ```bash
-> git clone https://github.com/garrytan/gstack.git ~/.claude/skills/gstack
-> ```
-
-### OpenClaw
-
-OpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works
-when Claude Code has gstack installed. Paste this to your OpenClaw agent:
-
-> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a "Coding Tasks" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: "Load gstack. Run /cso", code review: "Load gstack. Run /review", QA test a URL: "Load gstack. Run /qa https://...", build a feature end-to-end: "Load gstack. Run /autoplan, implement the plan, then run /ship", plan before building: "Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement."
-
-**After setup, just talk to your OpenClaw agent naturally:**
-
-| You say | What happens |
-|---------|-------------|
-| "Fix the typo in README" | Simple — Claude Code session, no gstack needed |
-| "Run a security audit on this repo" | Spawns Claude Code with `Run /cso` |
-| "Build me a notifications feature" | Spawns Claude Code with /autoplan → implement → /ship |
-| "Help me plan the v2 API redesign" | Spawns Claude Code with /office-hours → /autoplan, saves plan |
-
-See [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and
-the gstack-lite/gstack-full prompt templates.
-
-### Native OpenClaw Skills (via ClawHub)
-
-Four methodology skills that work directly in your OpenClaw agent, no Claude Code
-session needed. Install from ClawHub:
-
-```
-clawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro
-```
-
-| Skill | What it does |
-|-------|-------------|
-| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |
-| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |
-| `gstack-openclaw-investigate` | Root cause debugging methodology |
-| `gstack-openclaw-retro` | Weekly engineering retrospective |
-
-These are conversational skills. Your OpenClaw agent runs them directly via chat.
-
-### Other AI Agents
-
-gstack works on 8 AI coding agents, not just Claude. Setup auto-detects which
-agents you have installed:
-
-```bash
-git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack
-cd ~/gstack && ./setup
-```
-
-Or target a specific agent with `./setup --host <name>`:
-
-| Agent | Flag | Skills install to |
-|-------|------|-------------------|
-| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |
-| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |
-| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |
-| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |
-| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |
-| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |
-
-**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).
-It's one TypeScript config file, zero code changes.
-
-## See it work
-
-```
-You:    I want to build a daily briefing app for my calendar.
-You:    /office-hours
-Claude: [asks about the pain — specific examples, not hypotheticals]
-
-You:    Multiple Google calendars, events with stale info, wrong locations.
-        Prep takes forever and the results aren't good enough...
-
-Claude: I'm going to push back on the framing. You said "daily briefing
-        app." But what you actually described is a personal chief of
-        staff AI.
-        [extracts 5 capabilities you didn't realize you were describing]
-        [challenges 4 premises — you agree, disagree, or adjust]
-        [generates 3 implementation approaches with effort estimates]
-        RECOMMENDATION: Ship the narrowest wedge tomorrow, learn from
-        real usage. The full vision is a 3-month project — start with
-        the daily briefing that actually works.
-        [writes design doc → feeds into downstream skills automatically]
-
-You:    /plan-ceo-review
-        [reads the design doc, challenges scope, runs 10-section review]
-
-You:    /plan-eng-review
-        [ASCII diagrams for data flow, state machines, error paths]
-        [test matrix, failure modes, security concerns]
-
-You:    Approve plan. Exit plan mode.
-        [writes 2,400 lines across 11 files. ~8 minutes.]
-
-You:    /review
-        [AUTO-FIXED] 2 issues. [ASK] Race condition → you approve fix.
-
-You:    /qa https://staging.myapp.com
-        [opens real browser, clicks through flows, finds and fixes a bug]
-
-You:    /ship
-        Tests: 42 → 51 (+9 new). PR: github.com/you/app/pull/42
-```
-
-You said "daily briefing app." The agent said "you're building a chief of staff AI" — because it listened to your pain, not your feature request. Eight commands, end to end. That is not a copilot. That is a team.
-
-## The sprint
-
-gstack is a process, not a collection of tools. The skills run in the order a sprint runs:
-
-**Think → Plan → Build → Review → Test → Ship → Reflect**
-
-Each skill feeds into the next. `/office-hours` writes a design doc that `/plan-ceo-review` reads. `/plan-eng-review` writes a test plan that `/qa` picks up. `/review` catches bugs that `/ship` verifies are fixed. Nothing falls through the cracks because every step knows what came before it.
-
-| Skill | Your specialist | What they do |
-|-------|----------------|--------------|
-| `/office-hours` | **YC Office Hours** | Start here. Six forcing questions that reframe your product before you write code. Pushes back on your framing, challenges premises, generates implementation alternatives. Design doc feeds into every downstream skill. |
-| `/plan-ceo-review` | **CEO / Founder** | Rethink the problem. Find the 10-star product hiding inside the request. Four modes: Expansion, Selective Expansion, Hold Scope, Reduction. |
-| `/plan-eng-review` | **Eng Manager** | Lock in architecture, data flow, diagrams, edge cases, and tests. Forces hidden assumptions into the open. |
-| `/plan-design-review` | **Senior Designer** | Rates each design dimension 0-10, explains what a 10 looks like, then edits the plan to get there. AI Slop detection. Interactive — one AskUserQuestion per design choice. |
-| `/plan-devex-review` | **Developer Experience Lead** | Interactive DX review: explores developer personas, benchmarks against competitors' TTHW, designs your magical moment, traces friction points step by step. Three modes: DX EXPANSION, DX POLISH, DX TRIAGE. 20-45 forcing questions. |
-| `/design-consultation` | **Design Partner** | Build a complete design system from scratch. Researches the landscape, proposes creative risks, generates realistic product mockups. |
-| `/review` | **Staff Engineer** | Find the bugs that pass CI but blow up in production. Auto-fixes the obvious ones. Flags completeness gaps. |
-| `/investigate` | **Debugger** | Systematic root-cause debugging. Iron Law: no fixes without investigation. Traces data flow, tests hypotheses, stops after 3 failed fixes. |
-| `/design-review` | **Designer Who Codes** | Same audit as /plan-design-review, then fixes what it finds. Atomic commits, before/after screenshots. |
-| `/devex-review` | **DX Tester** | Live developer experience audit. Actually tests your onboarding: navigates docs, tries the getting started flow, times TTHW, screenshots errors. Compares against `/plan-devex-review` scores — the boomerang that shows if your plan matched reality. |
-| `/design-shotgun` | **Design Explorer** | Generate multiple AI design variants, open a comparison board in your browser, and iterate until you approve a direction. Taste memory biases toward your preferences. |
-| `/design-html` | **Design Engineer** | Generates production-quality HTML with Pretext for computed text layout. Works with approved mockups, CEO plans, design reviews, or from scratch. Text reflows on resize, heights adjust to content. Smart API routing picks the right Pretext patterns per design type. Framework detection for React/Svelte/Vue. |
-| `/qa` | **QA Lead** | Test your app, find bugs, fix them with atomic commits, re-verify. Auto-generates regression tests for every fix. |
-| `/qa-only` | **QA Reporter** | Same methodology as /qa but report only. Pure bug report without code changes. |
-| `/cso` | **Chief Security Officer** | OWASP Top 10 + STRIDE threat model. Zero-noise: 17 false positive exclusions, 8/10+ confidence gate, independent finding verification. Each finding includes a concrete exploit scenario. |
-| `/ship` | **Release Engineer** | Sync main, run tests, audit coverage, push, open PR. Bootstraps test frameworks if you don't have one. |
-| `/land-and-deploy` | **Release Engineer** | Merge the PR, wait for CI and deploy, verify production health. One command from "approved" to "verified in production." |
-| `/canary` | **SRE** | Post-deploy monitoring loop. Watches for console errors, performance regressions, and page failures. |
-| `/benchmark` | **Performance Engineer** | Baseline page load times, Core Web Vitals, and resource sizes. Compare before/after on every PR. |
-| `/document-release` | **Technical Writer** | Update all project docs to match what you just shipped. Catches stale READMEs automatically. |
-| `/retro` | **Eng Manager** | Team-aware weekly retro. Per-person breakdowns, shipping streaks, test health trends, growth opportunities. `/retro global` runs across all your projects and AI tools (Claude Code, Codex, Gemini). |
-| `/browse` | **QA Engineer** | Give the agent eyes. Real Chromium browser, real clicks, real screenshots. ~100ms per command. `/open-gstack-browser` launches GStack Browser with sidebar, anti-bot stealth, and auto model routing. |
-| `/setup-browser-cookies` | **Session Manager** | Import cookies from your real browser (Chrome, Arc, Brave, Edge) into the headless session. Test authenticated pages. |
-| `/autoplan` | **Review Pipeline** | One command, fully reviewed plan. Runs CEO → design → eng review automatically with encoded decision principles. Surfaces only taste decisions for your approval. |
-| `/learn` | **Memory** | Manage what gstack learned across sessions. Review, search, prune, and export project-specific patterns, pitfalls, and preferences. Learnings compound across sessions so gstack gets smarter on your codebase over time. |
-
-### Which review should I use?
-
-| Building for... | Plan stage (before code) | Live audit (after shipping) |
-|-----------------|--------------------------|----------------------------|
-| **End users** (UI, web app, mobile) | `/plan-design-review` | `/design-review` |
-| **Developers** (API, CLI, SDK, docs) | `/plan-devex-review` | `/devex-review` |
-| **Architecture** (data flow, perf, tests) | `/plan-eng-review` | `/review` |
-| **All of the above** | `/autoplan` (runs CEO → design → eng → DX, auto-detects which apply) | — |
-
-### Power tools
-
-| Skill | What it does |
-|-------|-------------|
-| `/codex` | **Second Opinion** — independent code review from OpenAI Codex CLI. Three modes: review (pass/fail gate), adversarial challenge, and open consultation. Cross-model analysis when both `/review` and `/codex` have run. |
-| `/careful` | **Safety Guardrails** — warns before destructive commands (rm -rf, DROP TABLE, force-push). Say "be careful" to activate. Override any warning. |
-| `/freeze` | **Edit Lock** — restrict file edits to one directory. Prevents accidental changes outside scope while debugging. |
-| `/guard` | **Full Safety** — `/careful` + `/freeze` in one command. Maximum safety for prod work. |
-| `/unfreeze` | **Unlock** — remove the `/freeze` boundary. |
-| `/open-gstack-browser` | **GStack Browser** — launch GStack Browser with sidebar, anti-bot stealth, auto model routing (Sonnet for actions, Opus for analysis), one-click cookie import, and Claude Code integration. Clean up pages, take smart screenshots, edit CSS, and pass info back to your terminal. |
-| `/setup-deploy` | **Deploy Configurator** — one-time setup for `/land-and-deploy`. Detects your platform, production URL, and deploy commands. |
-| `/gstack-upgrade` | **Self-Updater** — upgrade gstack to latest. Detects global vs vendored install, syncs both, shows what changed. |
-
-**[Deep dives with examples and philosophy for every skill →](docs/skills.md)**
-
-## Parallel sprints
-
-gstack works well with one sprint. It gets interesting with ten running at once.
-
-**Design is at the heart.** `/design-consultation` builds your design system from scratch, researches the space, proposes creative risks, and writes `DESIGN.md`. `/design-shotgun` generates multiple visual variants and opens a comparison board so you can pick a direction. `/design-html` takes that approved mockup and generates production-quality HTML with Pretext, where text actually reflows on resize instead of breaking with hardcoded heights. Then `/design-review` and `/plan-eng-review` read what you chose. Design decisions flow through the whole system.
-
-**`/qa` was a massive unlock.** It let me go from 6 to 12 parallel workers. Claude Code saying *"I SEE THE ISSUE"* and then actually fixing it, generating a regression test, and verifying the fix — that changed how I work. The agent has eyes now.
-
-**Smart review routing.** Just like at a well-run startup: CEO doesn't have to look at infra bug fixes, design review isn't needed for backend changes. gstack tracks what reviews are run, figures out what's appropriate, and just does the smart thing. The Review Readiness Dashboard tells you where you stand before you ship.
-
-**Test everything.** `/ship` bootstraps test frameworks from scratch if your project doesn't have one. Every `/ship` run produces a coverage audit. Every `/qa` bug fix generates a regression test. 100% test coverage is the goal — tests make vibe coding safe instead of yolo coding.
-
-**`/document-release` is the engineer you never had.** It reads every doc file in your project, cross-references the diff, and updates everything that drifted. README, ARCHITECTURE, CONTRIBUTING, CLAUDE.md, TODOS — all kept current automatically. And now `/ship` auto-invokes it — docs stay current without an extra command.
-
-**Real browser mode.** `/open-gstack-browser` launches GStack Browser, an AI-controlled Chromium with anti-bot stealth, custom branding, and the sidebar extension baked in. Sites like Google and NYTimes work without captchas. The menu bar says "GStack Browser" instead of "Chrome for Testing." Your regular Chrome stays untouched. All existing browse commands work unchanged. `$B disconnect` returns to headless. The browser stays alive as long as the window is open... no idle timeout killing it while you're working.
-
-**Sidebar agent — your AI browser assistant.** Type natural language in the Chrome side panel and a child Claude instance executes it. "Navigate to the settings page and screenshot it." "Fill out this form with test data." "Go through every item in this list and extract the prices." The sidebar auto-routes to the right model: Sonnet for fast actions (click, navigate, screenshot) and Opus for reading and analysis. Each task gets up to 5 minutes. The sidebar agent runs in an isolated session, so it won't interfere with your main Claude Code window. One-click cookie import right from the sidebar footer.
-
-**Personal automation.** The sidebar agent isn't just for dev workflows. Example: "Browse my kid's school parent portal and add all the other parents' names, phone numbers, and photos to my Google Contacts." Two ways to get authenticated: (1) log in once in the headed browser, your session persists, or (2) click the "cookies" button in the sidebar footer to import cookies from your real Chrome. Once authenticated, Claude navigates the directory, extracts the data, and creates the contacts.
-
-**Browser handoff when the AI gets stuck.** Hit a CAPTCHA, auth wall, or MFA prompt? `$B handoff` opens a visible Chrome at the exact same page with all your cookies and tabs intact. Solve the problem, tell Claude you're done, `$B resume` picks up right where it left off. The agent even suggests it automatically after 3 consecutive failures.
-
-**Multi-AI second opinion.** `/codex` gets an independent review from OpenAI's Codex CLI — a completely different AI looking at the same diff. Three modes: code review with a pass/fail gate, adversarial challenge that actively tries to break your code, and open consultation with session continuity. When both `/review` (Claude) and `/codex` (OpenAI) have reviewed the same branch, you get a cross-model analysis showing which findings overlap and which are unique to each.
-
-**Safety guardrails on demand.** Say "be careful" and `/careful` warns before any destructive command — rm -rf, DROP TABLE, force-push, git reset --hard. `/freeze` locks edits to one directory while debugging so Claude can't accidentally "fix" unrelated code. `/guard` activates both. `/investigate` auto-freezes to the module being investigated.
-
-**Proactive skill suggestions.** gstack notices what stage you're in — brainstorming, reviewing, debugging, testing — and suggests the right skill. Don't like it? Say "stop suggesting" and it remembers across sessions.
-
-## 10-15 parallel sprints
-
-gstack is powerful with one sprint. It is transformative with ten running at once.
-
-[Conductor](https://conductor.build) runs multiple Claude Code sessions in parallel — each in its own isolated workspace. One session running `/office-hours` on a new idea, another doing `/review` on a PR, a third implementing a feature, a fourth running `/qa` on staging, and six more on other branches. All at the same time. I regularly run 10-15 parallel sprints — that's the practical max right now.
-
-The sprint structure is what makes parallelism work. Without a process, ten agents is ten sources of chaos. With a process — think, plan, build, review, test, ship — each agent knows exactly what to do and when to stop. You manage them the way a CEO manages a team: check in on the decisions that matter, let the rest run.
-
-### Voice input (AquaVoice, Whisper, etc.)
-
-gstack skills have voice-friendly trigger phrases. Say what you want naturally —
-"run a security check", "test the website", "do an engineering review" — and the
-right skill activates. You don't need to remember slash command names or acronyms.
+gstack turns Claude Code into a virtual engineering team. **qstack does the same for Perplexity Computer** — no terminal, no install, no compiled binaries, no daemon processes. Just upload a skill file and go.
 
 ---
 
-Free, MIT licensed, open source. No premium tier, no waitlist.
+## Why Perplexity Computer Instead of Claude Code
 
-I open sourced how I build software. You can fork it and make it your own.
+gstack is brilliant engineering — 23+ workflow skills that turn an AI agent into a CEO, eng manager, designer, QA lead, security officer, and release engineer. But it was built for Claude Code on Desktop, which means:
 
-> **We're hiring.** Want to ship 10K+ LOC/day and help harden gstack?
-> Come work at YC — [ycombinator.com/software](https://ycombinator.com/software)
-> Extremely competitive salary and equity. San Francisco, Dogpatch District.
+| gstack requirement | What that actually means |
+|--------------------|------------------------|
+| Claude Code CLI | macOS/Linux/WSL terminal app, $20/mo Anthropic subscription |
+| Bun v1.0+ runtime | Install Bun, compile binaries, manage `node_modules` |
+| Persistent Chromium daemon | Background process, localhost HTTP, Chrome DevTools Protocol |
+| `~/.claude/skills/gstack/` | Clone repo into hidden directory, run `./setup`, manage updates |
+| Cookie import from Chrome/Arc/Brave | Keychain access, SQLite decryption, per-browser config |
+| CLAUDE.md routing | Manual config file in every project repo |
+| Conductor for parallelism | Separate tool for running multiple Claude Code sessions |
 
-## Docs
+**Perplexity Computer replaces all of that with a browser tab:**
 
-| Doc | What it covers |
-|-----|---------------|
-| [Skill Deep Dives](docs/skills.md) | Philosophy, examples, and workflow for every skill (includes Greptile integration) |
-| [Builder Ethos](ETHOS.md) | Builder philosophy: Boil the Lake, Search Before Building, three layers of knowledge |
-| [Architecture](ARCHITECTURE.md) | Design decisions and system internals |
-| [Browser Reference](BROWSER.md) | Full command reference for `/browse` |
-| [Contributing](CONTRIBUTING.md) | Dev setup, testing, contributor mode, and dev mode |
-| [Changelog](CHANGELOG.md) | What's new in every version |
+| qstack equivalent | What that actually means |
+|-------------------|------------------------|
+| Perplexity Computer | Open perplexity.ai — it runs in your browser, any OS |
+| No runtime needed | Cloud sandbox with Python, Node, bash, git, gh CLI pre-installed |
+| `browser_task` / `screenshot_page` | Built-in browser automation, no daemon, no process management |
+| Skills UI → Upload | Drag-and-drop a `.md` file, skill activates automatically |
+| Comet local browser | Uses your existing logged-in sessions — no cookie import needed |
+| Auto-activation by description | No config files — skills fire when your prompt matches |
+| `run_subagent` | Built-in parallel agents, typed by task (research, code, asset, website) |
 
-## Privacy & Telemetry
+**The bottom line:** gstack requires 30 minutes of terminal setup across 4 dependencies, runs only on macOS/Linux, and needs a background Chromium daemon. qstack requires dragging 30 files into a web UI and works from any device with a browser.
 
-gstack includes **opt-in** usage telemetry to help improve the project. Here's exactly what happens:
+### What Perplexity Computer Adds That Claude Code Doesn't Have
 
-- **Default is off.** Nothing is sent anywhere unless you explicitly say yes.
-- **On first run,** gstack asks if you want to share anonymous usage data. You can say no.
-- **What's sent (if you opt in):** skill name, duration, success/fail, gstack version, OS. That's it.
-- **What's never sent:** code, file paths, repo names, branch names, prompts, or any user-generated content.
-- **Change anytime:** `gstack-config set telemetry off` disables everything instantly.
+| Capability | Details |
+|-----------|---------|
+| **400+ app connectors** | Gmail, Slack, Notion, GitHub, Google Calendar, Jira, Linear, HubSpot, Salesforce — all pre-built, OAuth in one click |
+| **Cross-session memory** | `memory_update` / `memory_search` — the agent remembers your preferences, projects, and patterns across conversations without JSONL files |
+| **Scheduled tasks** | `schedule_cron` — run security audits daily, deploy checks hourly, retros weekly. No external cron needed |
+| **Website deployment** | `deploy_website` — ship a static site to a public URL in one command |
+| **Typed sub-agents** | `run_subagent` with types: `research` (web search), `codebase` (repo work), `asset` (PDF/DOCX/PPTX), `website` (build sites), `general_purpose` |
+| **File sharing** | `share_file` — send any generated file (charts, reports, zips) directly to the user |
+| **Multi-model access** | Switch between Claude, GPT, Gemini, and Grok within the same conversation |
+| **No local state** | Nothing to corrupt, nothing to back up, nothing to lose when you reformat your machine |
 
-Data is stored in [Supabase](https://supabase.com) (open source Firebase alternative). The schema is in [`supabase/migrations/`](supabase/migrations/) — you can verify exactly what's collected. The Supabase publishable key in the repo is a public key (like a Firebase API key) — row-level security policies deny all direct access. Telemetry flows through validated edge functions that enforce schema checks, event type allowlists, and field length limits.
+---
 
-**Local analytics are always available.** Run `gstack-analytics` to see your personal usage dashboard from the local JSONL file — no remote data needed.
+## The Sprint — Real-World Use Cases
 
-## Troubleshooting
+qstack preserves gstack's core philosophy: **Think → Plan → Build → Review → Test → Ship → Reflect**. Each skill feeds into the next. Here's when and how to use each one.
 
-**Skill not showing up?** `cd ~/.claude/skills/gstack && ./setup`
+### Think Phase
 
-**`/browse` fails?** `cd ~/.claude/skills/gstack && bun install && bun run build`
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `office-hours` | **YC Office Hours** | You have an idea and want to stress-test it before writing code | "I want to build a daily briefing app for my calendar." → The agent reframes it: "You're not building a briefing app — you're building a personal chief of staff AI." Asks 6 forcing questions about demand reality, status quo, desperation, narrowest wedge, observation, and future-fit. Outputs a design doc. |
 
-**Stale install?** Run `/gstack-upgrade` — or set `auto_upgrade: true` in `~/.gstack/config.yaml`
-
-**Want shorter commands?** `cd ~/.claude/skills/gstack && ./setup --no-prefix` — switches from `/gstack-qa` to `/qa`. Your choice is remembered for future upgrades.
-
-**Want namespaced commands?** `cd ~/.claude/skills/gstack && ./setup --prefix` — switches from `/qa` to `/gstack-qa`. Useful if you run other skill packs alongside gstack.
-
-**Codex says "Skipped loading skill(s) due to invalid SKILL.md"?** Your Codex skill descriptions are stale. Fix: `cd ~/.codex/skills/gstack && git pull && ./setup --host codex` — or for repo-local installs: `cd "$(readlink -f .agents/skills/gstack)" && git pull && ./setup --host codex`
-
-**Windows users:** gstack works on Windows 11 via Git Bash or WSL. Node.js is required in addition to Bun — Bun has a known bug with Playwright's pipe transport on Windows ([bun#4253](https://github.com/oven-sh/bun/issues/4253)). The browse server automatically falls back to Node.js. Make sure both `bun` and `node` are on your PATH.
-
-**Claude says it can't see the skills?** Make sure your project's `CLAUDE.md` has a gstack section. Add this:
+**Example conversation:**
 
 ```
-## gstack
-Use /browse from gstack for all web browsing. Never use mcp__claude-in-chrome__* tools.
-Available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review,
-/design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy,
-/canary, /benchmark, /browse, /open-gstack-browser, /qa, /qa-only, /design-review,
-/setup-browser-cookies, /setup-deploy, /retro, /investigate, /document-release, /codex,
-/cso, /autoplan, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn.
+You:    I want to build a patient intake automation tool for my clinic.
+Agent:  [Activates office-hours methodology]
+        Let me push back on "intake automation." You described three things:
+        insurance verification that takes 20 minutes per patient, forms that
+        patients fill out wrong, and no-shows you can't backfill. Those are
+        three different products. Which one makes you most desperate?
+You:    The insurance verification. It's killing our front desk.
+Agent:  Who is doing this today, and what do they actually do for those 20 minutes?
+        [... 4 more forcing questions ...]
+        RECOMMENDATION: Build the narrowest wedge — a single API call that
+        returns eligibility + copay for the top 5 payers (80% of your volume).
+        Ship it in 48 hours. The full intake suite is a 3-month project.
+        [Saves design doc to workspace]
 ```
+
+### Plan Phase
+
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `plan-ceo-review` | **CEO / Founder** | Challenge scope and ambition — is this thinking big enough? | Review a feature plan in 4 modes: SCOPE EXPANSION (dream big — "what if this replaced the entire workflow?"), SELECTIVE EXPANSION (hold scope + cherry-pick), HOLD SCOPE (maximum rigor on what's there), SCOPE REDUCTION (strip to essentials). |
+| `plan-eng-review` | **Eng Manager** | Lock architecture before writing code | ASCII data flow diagrams, state machine definitions, edge case enumeration, test matrix planning. Catches hidden assumptions — "What happens when the API returns a 429 during the webhook retry?" |
+| `plan-design-review` | **Senior Designer** | Evaluate UI/UX design decisions in the plan | Rates each design dimension 0-10 (hierarchy, typography, motion, spacing, accessibility), explains what a 10 looks like, and rewrites the plan to get there. Detects "AI slop" patterns. |
+| `plan-devex-review` | **DX Lead** | Review developer-facing products (APIs, CLIs, SDKs) | Explores developer personas, benchmarks Time-To-Hello-World against competitors, designs the "magical moment," traces friction point by point. |
+| `autoplan` | **Review Pipeline** | Run all reviews automatically in one command | Chains CEO → design → eng → DX review with encoded decision principles. Surfaces only the close-call "taste decisions" for your approval. |
+
+**Example — `plan-eng-review`:**
+
+```
+You:    Review this plan for a webhook processing system.
+Agent:  [Draws ASCII architecture diagram]
+
+        ┌──────────┐    ┌──────────────┐    ┌──────────┐
+        │ Webhook  │───→│  Queue       │───→│ Processor│
+        │ Receiver │    │ (Redis)      │    │ Workers  │
+        └──────────┘    └──────────────┘    └──────────┘
+
+        Three concerns:
+        1. ORDERING: Your plan assumes FIFO, but Redis lists don't guarantee
+           ordering under concurrent LPUSH. Do you need strict ordering per
+           source, or is best-effort fine?
+        2. RETRY: What's the dead-letter strategy? After 3 failures, where
+           do events go? Your plan says "retry" but never says "give up."
+        3. IDEMPOTENCY: The processor has no dedup key. If a webhook fires
+           twice (common with Stripe), you'll process the same event twice.
+
+        [Asks you to decide on each, then updates the plan]
+```
+
+### Build Phase
+
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `design-consultation` | **Design Partner** | Create a design system from scratch for a new project | Researches the competitive landscape, proposes typography + color + spacing + motion system, generates preview pages. Writes `DESIGN.md` as the project's source of truth. |
+| `design-html` | **Design Engineer** | Turn an approved design into production HTML | Uses Pretext for computed text layout — text actually reflows on resize instead of breaking with hardcoded heights. 30KB overhead, zero deps. |
+| `design-shotgun` | **Design Explorer** | See multiple visual options before committing | Generates 3-5 design variants, deploys a comparison board (via `deploy_website`), collects structured feedback, iterates. |
+| `investigate` | **Debugger** | Find root cause of a bug before fixing it | Iron Law: no fixes without root cause. Four phases: investigate → analyze → hypothesize → implement. Stops after 3 failed hypotheses and escalates. |
+
+**Example — `investigate`:**
+
+```
+You:    Users are seeing blank pages on the dashboard after login.
+Agent:  [Phase 1: INVESTIGATE — gathering evidence]
+        Checking: network requests, console errors, auth token flow...
+        Found: 401 response on /api/user/preferences 200ms after login.
+        The token is present but expired — it's a cached token from the
+        previous session.
+
+        [Phase 2: ANALYZE — root cause]
+        The auth middleware validates the token's `exp` claim, but the
+        frontend stores the token in localStorage and only refreshes it
+        on explicit login. A user who was logged in yesterday, closes the
+        tab, and returns today hits the stale token.
+
+        [Phase 3: HYPOTHESIZE]
+        Fix: Add a token freshness check on app mount — if exp < now,
+        trigger a silent refresh before the first API call.
+
+        [Phase 4: IMPLEMENT — with your approval]
+```
+
+### Review Phase
+
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `review` | **Staff Engineer** | Pre-landing code review on any branch with changes | Reads the diff against base branch. Checks for: SQL injection, LLM trust boundary violations, conditional side effects, incomplete migrations, missing error handling. Auto-fixes obvious issues, flags ambiguous ones for your decision. |
+| `cso` | **Chief Security Officer** | Security audit before shipping | OWASP Top 10 + STRIDE threat model. Infrastructure-first: secrets archaeology, dependency supply chain, CI/CD pipeline security. Zero-noise mode with 8/10 confidence gate — only reports findings it can verify. Each finding includes a concrete exploit scenario. |
+| `codex` | **Second Opinion** | Get a different AI model's perspective | Dispatches via `run_subagent` with a different model (GPT, Gemini, etc.) for independent review. Three modes: code review (pass/fail gate), adversarial challenge (actively tries to break your code), and open consultation. |
+
+### Test Phase
+
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `qa` | **QA Lead** | Test a live web app, find bugs, and fix them | Opens the app via `browser_task`, systematically clicks through flows, checks for console errors, takes screenshots. Three tiers: Quick (critical only), Standard (+ medium), Exhaustive (+ cosmetic). Fixes bugs with atomic commits and re-verifies each fix. |
+| `qa-only` | **QA Reporter** | Same testing, but report-only — no code changes | Produces a structured bug report with health score, screenshots, and repro steps. Use when you want a report for a team handoff without the agent touching code. |
+| `design-review` | **Designer Who Codes** | Visual QA — find and fix spacing, hierarchy, and AI slop issues | Iterative audit + fix loop. Takes before/after screenshots, commits each fix atomically. For plan-stage review (before code), use `plan-design-review` instead. |
+| `devex-review` | **DX Tester** | Live-test your developer onboarding | Actually navigates docs, tries the getting-started flow, times how long it takes to reach "hello world," screenshots error messages. Compares against `plan-devex-review` scores. |
+| `benchmark` | **Performance Engineer** | Catch performance regressions before they ship | Baselines page load times, Core Web Vitals, resource sizes. Compares before/after on every PR. |
+
+### Ship Phase
+
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `ship` | **Release Engineer** | The full shipping workflow | Syncs with base branch, runs tests, audits coverage, bumps VERSION, updates CHANGELOG, pushes, creates PR. Bootstraps a test framework from scratch if your project doesn't have one. |
+| `land-and-deploy` | **Release Engineer** | Merge PR → deploy → verify production | Merges the PR (created by `ship`), waits for CI, monitors the deploy, runs canary health checks via `browser_task` and `fetch_url`. |
+| `canary` | **SRE** | Post-deploy production monitoring | Periodic checks for console errors, performance regressions, and page failures. In qstack, this can be automated with `schedule_cron` for continuous monitoring. |
+| `document-release` | **Technical Writer** | Update docs to match what shipped | Reads all project docs, cross-references the diff, updates README/ARCHITECTURE/CONTRIBUTING to match the new code. Catches stale documentation automatically. |
+
+### Reflect Phase
+
+| Skill | Your Specialist | When to Use | Real-World Example |
+|-------|----------------|-------------|-------------------|
+| `retro` | **Eng Manager** | Weekly or sprint retrospective | Analyzes commit history, work patterns, code quality. Team-aware: per-person breakdowns with praise and growth areas. Tracks trends over time. |
+| `learn` | **Memory** | Review what the agent has learned about your codebase | In qstack, this maps to Perplexity's built-in `memory_search` / `memory_update`. Learnings compound across sessions automatically. |
+
+### Safety and Utilities
+
+| Skill | When to Use |
+|-------|-------------|
+| `careful` | Activate safety warnings before destructive commands (rm -rf, DROP TABLE, force-push) |
+| `freeze` | Lock edits to a specific directory — prevents accidental changes while debugging |
+| `guard` | `careful` + `freeze` combined — maximum safety for production work |
+| `unfreeze` | Remove the freeze boundary |
+| `checkpoint` | Save working state so you can resume later |
+| `setup-deploy` | One-time deploy platform configuration |
+
+---
+
+## Install — 2 Minutes
+
+### Option 1: Upload Skills Individually
+
+1. Download any skill's `SKILL.md` from the `skills/` directory in this repo
+2. In Perplexity Computer: **Skills → + Create skill → Upload a skill**
+3. Drop the `.md` file
+4. The skill auto-activates when your prompt matches its description
+
+### Option 2: Bulk Upload
+
+1. Download the `skills/` directory from this repo
+2. Upload each `skills/[name]/SKILL.md` through the Skills UI
+3. Or zip individual skill folders and upload the `.zip` files
+
+No terminal. No dependencies. No setup script. No CLAUDE.md. No PATH configuration.
+
+---
+
+## How the Conversion Was Done
+
+Two Python scripts process gstack's 30 skill files in a single pass:
+
+1. **`scripts/convert-to-qstack.py`** — Strips ~445 lines of shared boilerplate per skill (bash preamble, telemetry, session tracking, CLAUDE.md routing), remaps tool references (`$B` → `browser_task`, `Agent` → `run_subagent`, learnings → Perplexity memory), rebrands gstack → qstack
+2. **`scripts/post-clean.py`** — Second pass to clean browse daemon setup blocks, desktop-only paths, and analytics references
+
+**Result: 32,315 → 18,317 lines (43% reduction) across 30 skills.** The methodology is preserved; the desktop plumbing is removed.
+
+To re-run after upstream gstack updates:
+
+```bash
+python3 scripts/convert-to-qstack.py
+python3 scripts/post-clean.py
+```
+
+---
+
+## Tool Mapping Reference
+
+| gstack (Claude Code Desktop) | qstack (Perplexity Computer) |
+|------------------------------|------------------------------|
+| `$B goto URL` | `browser_task(url=..., task="Navigate to...")` |
+| `$B snapshot` | `screenshot_page(url=...)` |
+| `$B click` / `$B fill` | `browser_task(task="Click..." / "Fill...")` |
+| `Agent` sub-agent | `run_subagent(subagent_type="general_purpose")` |
+| `AskUserQuestion` | `ask_user_question` |
+| `WebSearch` | `search_web` / `fetch_url` |
+| `Bash` with `git` / `gh` | `bash` with `api_credentials=["github"]` |
+| `~/.gstack/learnings` | `memory_search` / `memory_update` |
+| `CLAUDE.md` routing | Automatic skill activation by description match |
+| `Conductor` (parallel sessions) | Multiple `run_subagent` calls |
+| Local Chromium daemon | `browser_task` (cloud) or Comet local browser |
+| `gstack-analytics` | Perplexity activity timeline (built-in) |
+| No scheduling | `schedule_cron` for recurring tasks |
+| No app integrations (beyond MCP) | 400+ OAuth connectors (Gmail, Slack, Notion, etc.) |
+
+---
+
+## File Structure
+
+```
+qstack/
+├── README.md                    ← You are here
+├── QSTACK-PLAN.md               ← Detailed conversion plan and architecture comparison
+├── skills/                      ← Upload-ready qstack skills for Perplexity Computer
+│   ├── office-hours/SKILL.md
+│   ├── plan-ceo-review/SKILL.md
+│   ├── plan-eng-review/SKILL.md
+│   ├── plan-design-review/SKILL.md
+│   ├── plan-devex-review/SKILL.md
+│   ├── review/SKILL.md
+│   ├── ship/SKILL.md
+│   ├── qa/SKILL.md
+│   ├── qa-only/SKILL.md
+│   ├── cso/SKILL.md
+│   ├── investigate/SKILL.md
+│   ├── autoplan/SKILL.md
+│   ├── ... (30 skills total)
+│   └── unfreeze/SKILL.md
+├── scripts/
+│   ├── convert-to-qstack.py     ← Main conversion script
+│   └── post-clean.py            ← Post-processing cleanup
+└── gstack-original/             ← Original gstack source (archived for reference)
+```
+
+---
+
+## Credits
+
+- **[gstack](https://github.com/garrytan/gstack)** by [Garry Tan](https://x.com/garrytan) — the original toolkit, MIT License. All methodology, skill design, workflow philosophy, and the "virtual engineering team" concept are Garry's work.
+- **qstack** adapts that work for [Perplexity Computer](https://www.perplexity.ai/), making it accessible from any browser without terminal setup.
 
 ## License
 
-MIT. Free forever. Go build something.
+MIT — same as gstack. Free forever.
