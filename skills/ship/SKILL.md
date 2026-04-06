@@ -12,6 +12,23 @@ name: ship
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Before starting the ship workflow:
+
+1. **Clone the repo** if not already in workspace:
+   `bash` with `api_credentials=["github"]`: `gh repo clone [owner/repo] /home/user/workspace/[repo]`
+2. **All git/gh commands** use `bash` with `api_credentials=["github"]`
+3. **Run tests:** `bash`: `cd /home/user/workspace/[repo] && [test command]`
+   (detect test runner from package.json, Makefile, pytest.ini, etc.)
+4. **Create PR:** `bash` with `api_credentials=["github"]`:
+   `cd /home/user/workspace/[repo] && gh pr create --title "..." --body "..."`
+5. **Search memory:** `memory_search` for this project's shipping preferences (branch naming,
+   PR template, changelog format)
+6. **At the end:** `memory_update` with PR link and what shipped
+7. **If Slack connected:** post ship notification (use `confirm_action` first)
+8. **If Linear/Jira connected:** move ticket to "Done"
+
 
 ## Step 0: Detect platform and base branch
 

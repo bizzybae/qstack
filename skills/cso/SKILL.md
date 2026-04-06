@@ -14,6 +14,19 @@ name: cso
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Before starting the security audit:
+
+1. **Clone the repo:** `bash` with `api_credentials=["github"]`:
+   `gh repo clone [owner/repo] /home/user/workspace/[repo]`
+2. **Dependency scanning:** `bash`: `cd /home/user/workspace/[repo] && npm audit` (or pip audit, etc.)
+3. **Secrets scanning:** `grep` tool to search for API keys, tokens, passwords across the codebase
+4. **Search memory:** `memory_search` for past security findings on this repo
+5. **At the end:** `memory_update` with findings summary and severity counts
+6. **If Slack connected:** post critical findings to a security channel (confirm first)
+7. **Schedule recurring audits:** suggest `qstack-scheduled-ops` for weekly automated scans
+
 
 ## User-invocable
 When the user types `/cso`, run this skill.

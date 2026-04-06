@@ -15,6 +15,20 @@ name: qa
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+QA testing in Perplexity Computer uses browser automation instead of gstack's browse daemon:
+
+1. **Navigate to the app:** `browser_task(url="[staging_url]", task="Navigate to the app and verify it loads")`
+2. **Take screenshots:** `screenshot_page(url="[url]")` — captures the current visual state
+3. **Interactive testing:** `browser_task(task="Click the login button, fill in test credentials, submit the form, and verify the dashboard loads")`
+4. **Advanced automation:** `js_repl` with Playwright for complex multi-step flows that need persistent state
+5. **For local browser testing:** use `browser_task` with `use_local_browser` to test with the user's real logged-in sessions
+6. **Clone the repo** for code fixes: `bash` with `api_credentials=["github"]`: `gh repo clone [owner/repo]`
+7. **Search memory:** `memory_search` for known issues and past QA findings on this app
+8. **At the end:** `memory_update` with bugs found and fixed
+9. **If Linear/Jira connected:** create bug tickets with repro steps and screenshots
+
 
 ## Step 0: Detect platform and base branch
 

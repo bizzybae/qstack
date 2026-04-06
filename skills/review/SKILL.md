@@ -12,6 +12,20 @@ name: review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Before starting the review:
+
+1. **Clone the repo** if not already in workspace:
+   `bash` with `api_credentials=["github"]`: `gh repo clone [owner/repo] /home/user/workspace/[repo]`
+2. **Git operations** use `bash` with `api_credentials=["github"]` — this injects the GitHub token
+   automatically. No manual auth needed.
+3. **To read the diff:** `bash`: `cd /home/user/workspace/[repo] && git diff main...HEAD`
+4. **To create a PR:** `bash` with `api_credentials=["github"]`: `gh pr create --title "..." --body "..."`
+5. **Search memory first:** `memory_search` for past review findings on this repo
+6. **At the end:** `memory_update` with key findings for future reference
+7. **If Linear/Jira connected:** create follow-up tickets for non-blocking findings
+
 
 ## Step 0: Detect platform and base branch
 

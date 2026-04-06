@@ -18,6 +18,18 @@ name: office-hours
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Before starting the office-hours workflow:
+
+1. **Search memory first:** `memory_search` for past brainstorming sessions, project context,
+   and user preferences for this domain
+2. **Save the design doc** to `/home/user/workspace/` — downstream skills (plan-ceo-review,
+   plan-eng-review) can read it from there
+3. **At the end:** `memory_update` with key decisions and the design doc location
+4. **If connected apps exist** (check via `list_external_tools`): search Slack/Gmail/Notion
+   for customer context before asking the forcing questions
+
 
 > **Browser access in Perplexity Computer:** Use `browser_task` to navigate and interact with web pages,
 > `screenshot_page` to capture screenshots, and `js_repl` with Playwright for advanced browser automation.

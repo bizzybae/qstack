@@ -247,6 +247,73 @@ python3 scripts/post-clean.py
 
 ---
 
+## Perplexity-Native Skills (qstack originals)
+
+These skills don't exist in gstack. They leverage capabilities unique to Perplexity Computer.
+
+| Skill | What It Does | Why It Only Works Here |
+|-------|-------------|------------------------|
+| `qstack-sprint` | Full pipeline orchestrator: Think → Plan → Build → Review → Test → Ship in one conversation | Uses `run_subagent` chaining with typed agents (codebase, research, general_purpose) and workspace file handoff — gstack needs Conductor (separate paid tool) |
+| `qstack-memory` | Structured cross-session project knowledge with taxonomy (project, pattern, pitfall, decision, review, sprint) | Uses Perplexity's native `memory_update`/`memory_search` — cross-device, searchable by natural language. gstack uses local JSONL files on one machine |
+| `qstack-scheduled-ops` | Automated canary checks, security scans, retros, and benchmarks on a cron schedule | Uses `schedule_cron` — gstack has no scheduling capability at all |
+| `qstack-connectors` | Weaves Slack, Gmail, Notion, Linear, Jira, Google Calendar into the sprint workflow | Uses 400+ built-in OAuth connectors — gstack has no app integration beyond MCP config |
+
+### What `qstack-sprint` looks like in practice
+
+```
+You:    Build me a webhook processing system for Stripe events. End to end.
+
+Agent:  [qstack-sprint activates — classifies as Greenfield feature]
+        [Asks: repo URL, staging URL, skip any phases?]
+
+You:    github.com/me/payments-api, staging at payments-staging.up.railway.app
+
+Agent:  [THINK] Running office-hours methodology...
+        Six forcing questions surface that you need idempotency,
+        dead-letter handling, and per-source ordering.
+        [Saves design doc → workspace]
+
+        [PLAN] Spawning 3 parallel review subagents...
+        CEO Review: APPROVED — scope is right for v1
+        Eng Review: NEEDS REVISION — missing retry backoff strategy
+        Design Review: SKIPPED — no UI work
+        [You approve the eng revision suggestion]
+
+        [BUILD] Codebase subagent implements across 8 files, 47 tests...
+
+        [REVIEW] Code review subagent + security audit in parallel...
+        Review: 1 auto-fixed issue, 0 blocking
+        CSO: No critical findings, 1 medium (rate limiting on webhook endpoint)
+
+        [TEST] QA subagent tests staging via browser_task...
+        Health score: 94/100, 1 medium issue (timeout on large payload)
+
+        [SHIP] PR created: github.com/me/payments-api/pull/42
+        [Posts to #engineering in Slack, moves Linear ticket to Done]
+
+        Sprint complete. 6 phases, 4 subagents, 1 conversation.
+```
+
+---
+
+## Problems qstack Already Solves
+
+Looking at [gstack's open issues](https://github.com/garrytan/gstack/issues), many of their top
+pain points simply don't exist in qstack:
+
+| gstack Issue | Problem | Why qstack Doesn't Have It |
+|-------------|---------|----------------------------|
+| [#825](https://github.com/garrytan/gstack/issues/825), [#807](https://github.com/garrytan/gstack/issues/807), [#764](https://github.com/garrytan/gstack/issues/764), [#763](https://github.com/garrytan/gstack/issues/763) | Windows support — setup scripts, browse daemon, cookie import all break | Cloud sandbox — OS doesn't matter |
+| [#807](https://github.com/garrytan/gstack/issues/807) | Browse daemon becomes orphan process, Chrome windows keep popping up | `browser_task` is stateless and managed by the platform |
+| [#778](https://github.com/garrytan/gstack/issues/778) | Auth state lost across separate browse invocations | Comet local browser preserves sessions; cloud browser is ephemeral by design |
+| [#771](https://github.com/garrytan/gstack/issues/771) | Browse blocks `file://` URLs, breaking wireframe render | `deploy_website` serves files over HTTPS |
+| [#840](https://github.com/garrytan/gstack/issues/840), [#785](https://github.com/garrytan/gstack/issues/785), [#779](https://github.com/garrytan/gstack/issues/779) | Setup leaves untracked files, `$HOME` vs `~` path bugs, binary bloats clone | No binaries, no setup script, no local paths |
+| [#824](https://github.com/garrytan/gstack/issues/824) | `CDPATH` breaks all bin/ scripts | No bin/ scripts — skills are pure markdown |
+| [#766](https://github.com/garrytan/gstack/issues/766) | Sub-agents inherit full skill context, degrading performance | `run_subagent` is typed and isolated — each gets only what it needs |
+| [#730](https://github.com/garrytan/gstack/issues/730) | Eng and Design reviews fail to write results back to the design file | Workspace files are the handoff mechanism — reads and writes are explicit |
+
+---
+
 ## File Structure
 
 ```
@@ -254,23 +321,27 @@ qstack/
 ├── README.md                    ← You are here
 ├── QSTACK-PLAN.md               ← Detailed conversion plan and architecture comparison
 ├── skills/                      ← Upload-ready qstack skills for Perplexity Computer
-│   ├── office-hours/SKILL.md
+│   ├── qstack-sprint/SKILL.md       ★ NEW — full pipeline orchestrator
+│   ├── qstack-memory/SKILL.md       ★ NEW — structured cross-session knowledge
+│   ├── qstack-scheduled-ops/SKILL.md ★ NEW — automated monitoring via cron
+│   ├── qstack-connectors/SKILL.md   ★ NEW — app integration recipes
+│   ├── office-hours/SKILL.md        ✦ ENHANCED — Perplexity environment context
+│   ├── review/SKILL.md              ✦ ENHANCED
+│   ├── ship/SKILL.md                ✦ ENHANCED
+│   ├── qa/SKILL.md                  ✦ ENHANCED
+│   ├── cso/SKILL.md                 ✦ ENHANCED
 │   ├── plan-ceo-review/SKILL.md
 │   ├── plan-eng-review/SKILL.md
 │   ├── plan-design-review/SKILL.md
 │   ├── plan-devex-review/SKILL.md
-│   ├── review/SKILL.md
-│   ├── ship/SKILL.md
-│   ├── qa/SKILL.md
-│   ├── qa-only/SKILL.md
-│   ├── cso/SKILL.md
 │   ├── investigate/SKILL.md
 │   ├── autoplan/SKILL.md
-│   ├── ... (30 skills total)
+│   ├── ... (34 skills total)
 │   └── unfreeze/SKILL.md
 ├── scripts/
 │   ├── convert-to-qstack.py     ← Main conversion script
-│   └── post-clean.py            ← Post-processing cleanup
+│   ├── post-clean.py            ← Post-processing cleanup
+│   └── inject-preamble.py       ← Add Perplexity context to converted skills
 └── gstack-original/             ← Original gstack source (archived for reference)
 ```
 
