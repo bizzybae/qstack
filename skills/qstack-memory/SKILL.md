@@ -17,8 +17,7 @@ description: |
 
 ## Why This Exists
 
-gstack stores learnings in `~/.gstack/projects/<slug>/learnings.jsonl` — a local file that
-only works on one machine, in one tool. Perplexity's `memory_update` / `memory_search` is
+gstack stores learnings in a local JSONL file on disk — tied to one machine, one tool. Perplexity's `memory_update` / `memory_search` is
 cross-session, cross-device, and searchable by natural language. But without structure,
 memory becomes a junk drawer. This skill imposes structure.
 

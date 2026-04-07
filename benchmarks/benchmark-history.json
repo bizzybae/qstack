@@ -1,0 +1,928 @@
+[
+  {
+    "timestamp": "2026-04-07T00:14:25.917696",
+    "version": "v3",
+    "summary": {
+      "total_skills": 34,
+      "total_lines": 19603,
+      "avg_score": 98.4,
+      "total_issues": 12,
+      "by_severity": {
+        "critical": 0,
+        "high": 4,
+        "medium": 5,
+        "low": 3
+      },
+      "grade_distribution": {
+        "A": 33,
+        "B": 1
+      }
+    },
+    "skills": {
+      "autoplan": {
+        "score": 100,
+        "grade": "A",
+        "lines": 933,
+        "issues": 0
+      },
+      "benchmark": {
+        "score": 100,
+        "grade": "A",
+        "lines": 239,
+        "issues": 0
+      },
+      "canary": {
+        "score": 100,
+        "grade": "A",
+        "lines": 264,
+        "issues": 0
+      },
+      "careful": {
+        "score": 100,
+        "grade": "A",
+        "lines": 66,
+        "issues": 0
+      },
+      "checkpoint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 265,
+        "issues": 0
+      },
+      "codex": {
+        "score": 99,
+        "grade": "A",
+        "lines": 518,
+        "issues": 1
+      },
+      "cso": {
+        "score": 100,
+        "grade": "A",
+        "lines": 706,
+        "issues": 0
+      },
+      "design-consultation": {
+        "score": 100,
+        "grade": "A",
+        "lines": 661,
+        "issues": 0
+      },
+      "design-html": {
+        "score": 100,
+        "grade": "A",
+        "lines": 614,
+        "issues": 0
+      },
+      "design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 999,
+        "issues": 0
+      },
+      "design-shotgun": {
+        "score": 100,
+        "grade": "A",
+        "lines": 416,
+        "issues": 0
+      },
+      "devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 430,
+        "issues": 0
+      },
+      "document-release": {
+        "score": 100,
+        "grade": "A",
+        "lines": 422,
+        "issues": 1
+      },
+      "freeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 82,
+        "issues": 1
+      },
+      "guard": {
+        "score": 97,
+        "grade": "A",
+        "lines": 77,
+        "issues": 1
+      },
+      "investigate": {
+        "score": 100,
+        "grade": "A",
+        "lines": 241,
+        "issues": 0
+      },
+      "land-and-deploy": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1013,
+        "issues": 0
+      },
+      "learn": {
+        "score": 100,
+        "grade": "A",
+        "lines": 135,
+        "issues": 0
+      },
+      "office-hours": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1111,
+        "issues": 0
+      },
+      "plan-ceo-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1261,
+        "issues": 0
+      },
+      "plan-design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 942,
+        "issues": 0
+      },
+      "plan-devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1258,
+        "issues": 0
+      },
+      "plan-eng-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 851,
+        "issues": 0
+      },
+      "qa": {
+        "score": 100,
+        "grade": "A",
+        "lines": 850,
+        "issues": 0
+      },
+      "qa-only": {
+        "score": 100,
+        "grade": "A",
+        "lines": 426,
+        "issues": 0
+      },
+      "qstack-connectors": {
+        "score": 90,
+        "grade": "A",
+        "lines": 148,
+        "issues": 1
+      },
+      "qstack-memory": {
+        "score": 87,
+        "grade": "B",
+        "lines": 144,
+        "issues": 2
+      },
+      "qstack-scheduled-ops": {
+        "score": 90,
+        "grade": "A",
+        "lines": 200,
+        "issues": 1
+      },
+      "qstack-sprint": {
+        "score": 92,
+        "grade": "A",
+        "lines": 243,
+        "issues": 1
+      },
+      "retro": {
+        "score": 100,
+        "grade": "A",
+        "lines": 904,
+        "issues": 0
+      },
+      "review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 918,
+        "issues": 0
+      },
+      "setup-deploy": {
+        "score": 98,
+        "grade": "A",
+        "lines": 220,
+        "issues": 2
+      },
+      "ship": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1996,
+        "issues": 0
+      },
+      "unfreeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 50,
+        "issues": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-07T00:15:11.839368",
+    "version": "v3",
+    "summary": {
+      "total_skills": 34,
+      "total_lines": 19602,
+      "avg_score": 99.6,
+      "total_issues": 6,
+      "by_severity": {
+        "critical": 0,
+        "high": 0,
+        "medium": 5,
+        "low": 1
+      },
+      "grade_distribution": {
+        "A": 34
+      }
+    },
+    "skills": {
+      "autoplan": {
+        "score": 100,
+        "grade": "A",
+        "lines": 933,
+        "issues": 0
+      },
+      "benchmark": {
+        "score": 100,
+        "grade": "A",
+        "lines": 239,
+        "issues": 0
+      },
+      "canary": {
+        "score": 100,
+        "grade": "A",
+        "lines": 264,
+        "issues": 0
+      },
+      "careful": {
+        "score": 100,
+        "grade": "A",
+        "lines": 66,
+        "issues": 0
+      },
+      "checkpoint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 265,
+        "issues": 0
+      },
+      "codex": {
+        "score": 99,
+        "grade": "A",
+        "lines": 518,
+        "issues": 1
+      },
+      "cso": {
+        "score": 100,
+        "grade": "A",
+        "lines": 706,
+        "issues": 0
+      },
+      "design-consultation": {
+        "score": 100,
+        "grade": "A",
+        "lines": 661,
+        "issues": 0
+      },
+      "design-html": {
+        "score": 100,
+        "grade": "A",
+        "lines": 614,
+        "issues": 0
+      },
+      "design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 999,
+        "issues": 0
+      },
+      "design-shotgun": {
+        "score": 100,
+        "grade": "A",
+        "lines": 416,
+        "issues": 0
+      },
+      "devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 430,
+        "issues": 0
+      },
+      "document-release": {
+        "score": 100,
+        "grade": "A",
+        "lines": 422,
+        "issues": 0
+      },
+      "freeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 82,
+        "issues": 1
+      },
+      "guard": {
+        "score": 97,
+        "grade": "A",
+        "lines": 77,
+        "issues": 1
+      },
+      "investigate": {
+        "score": 100,
+        "grade": "A",
+        "lines": 241,
+        "issues": 0
+      },
+      "land-and-deploy": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1013,
+        "issues": 0
+      },
+      "learn": {
+        "score": 100,
+        "grade": "A",
+        "lines": 135,
+        "issues": 0
+      },
+      "office-hours": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1111,
+        "issues": 0
+      },
+      "plan-ceo-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1261,
+        "issues": 0
+      },
+      "plan-design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 942,
+        "issues": 0
+      },
+      "plan-devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1258,
+        "issues": 0
+      },
+      "plan-eng-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 851,
+        "issues": 0
+      },
+      "qa": {
+        "score": 100,
+        "grade": "A",
+        "lines": 850,
+        "issues": 0
+      },
+      "qa-only": {
+        "score": 100,
+        "grade": "A",
+        "lines": 426,
+        "issues": 0
+      },
+      "qstack-connectors": {
+        "score": 97,
+        "grade": "A",
+        "lines": 148,
+        "issues": 1
+      },
+      "qstack-memory": {
+        "score": 100,
+        "grade": "A",
+        "lines": 143,
+        "issues": 0
+      },
+      "qstack-scheduled-ops": {
+        "score": 100,
+        "grade": "A",
+        "lines": 200,
+        "issues": 0
+      },
+      "qstack-sprint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 243,
+        "issues": 0
+      },
+      "retro": {
+        "score": 100,
+        "grade": "A",
+        "lines": 904,
+        "issues": 0
+      },
+      "review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 918,
+        "issues": 0
+      },
+      "setup-deploy": {
+        "score": 99,
+        "grade": "A",
+        "lines": 220,
+        "issues": 1
+      },
+      "ship": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1996,
+        "issues": 0
+      },
+      "unfreeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 50,
+        "issues": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-07T00:16:38.729069",
+    "version": "v3",
+    "summary": {
+      "total_skills": 36,
+      "total_lines": 20000,
+      "avg_score": 99.3,
+      "total_issues": 11,
+      "by_severity": {
+        "critical": 0,
+        "high": 0,
+        "medium": 8,
+        "low": 3
+      },
+      "grade_distribution": {
+        "A": 35,
+        "B": 1
+      }
+    },
+    "skills": {
+      "autoplan": {
+        "score": 100,
+        "grade": "A",
+        "lines": 933,
+        "issues": 0
+      },
+      "benchmark": {
+        "score": 100,
+        "grade": "A",
+        "lines": 239,
+        "issues": 0
+      },
+      "canary": {
+        "score": 100,
+        "grade": "A",
+        "lines": 264,
+        "issues": 0
+      },
+      "careful": {
+        "score": 100,
+        "grade": "A",
+        "lines": 66,
+        "issues": 0
+      },
+      "checkpoint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 265,
+        "issues": 0
+      },
+      "codex": {
+        "score": 99,
+        "grade": "A",
+        "lines": 518,
+        "issues": 1
+      },
+      "cso": {
+        "score": 100,
+        "grade": "A",
+        "lines": 706,
+        "issues": 0
+      },
+      "design-consultation": {
+        "score": 100,
+        "grade": "A",
+        "lines": 661,
+        "issues": 0
+      },
+      "design-html": {
+        "score": 100,
+        "grade": "A",
+        "lines": 614,
+        "issues": 0
+      },
+      "design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 999,
+        "issues": 0
+      },
+      "design-shotgun": {
+        "score": 100,
+        "grade": "A",
+        "lines": 416,
+        "issues": 0
+      },
+      "devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 430,
+        "issues": 0
+      },
+      "document-release": {
+        "score": 100,
+        "grade": "A",
+        "lines": 422,
+        "issues": 0
+      },
+      "freeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 82,
+        "issues": 1
+      },
+      "guard": {
+        "score": 97,
+        "grade": "A",
+        "lines": 77,
+        "issues": 1
+      },
+      "investigate": {
+        "score": 100,
+        "grade": "A",
+        "lines": 241,
+        "issues": 0
+      },
+      "land-and-deploy": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1013,
+        "issues": 0
+      },
+      "learn": {
+        "score": 100,
+        "grade": "A",
+        "lines": 135,
+        "issues": 0
+      },
+      "office-hours": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1111,
+        "issues": 0
+      },
+      "plan-ceo-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1261,
+        "issues": 0
+      },
+      "plan-design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 942,
+        "issues": 0
+      },
+      "plan-devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1258,
+        "issues": 0
+      },
+      "plan-eng-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 851,
+        "issues": 0
+      },
+      "qa": {
+        "score": 100,
+        "grade": "A",
+        "lines": 850,
+        "issues": 0
+      },
+      "qa-only": {
+        "score": 100,
+        "grade": "A",
+        "lines": 426,
+        "issues": 0
+      },
+      "qstack-connectors": {
+        "score": 97,
+        "grade": "A",
+        "lines": 148,
+        "issues": 1
+      },
+      "qstack-memory": {
+        "score": 100,
+        "grade": "A",
+        "lines": 143,
+        "issues": 0
+      },
+      "qstack-package": {
+        "score": 100,
+        "grade": "A",
+        "lines": 283,
+        "issues": 0
+      },
+      "qstack-scheduled-ops": {
+        "score": 100,
+        "grade": "A",
+        "lines": 200,
+        "issues": 0
+      },
+      "qstack-sprint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 243,
+        "issues": 0
+      },
+      "qstack-validate": {
+        "score": 89,
+        "grade": "B",
+        "lines": 115,
+        "issues": 5
+      },
+      "retro": {
+        "score": 100,
+        "grade": "A",
+        "lines": 904,
+        "issues": 0
+      },
+      "review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 918,
+        "issues": 0
+      },
+      "setup-deploy": {
+        "score": 99,
+        "grade": "A",
+        "lines": 220,
+        "issues": 1
+      },
+      "ship": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1996,
+        "issues": 0
+      },
+      "unfreeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 50,
+        "issues": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-07T00:17:05.702892",
+    "version": "v3",
+    "summary": {
+      "total_skills": 36,
+      "total_lines": 20000,
+      "avg_score": 99.4,
+      "total_issues": 8,
+      "by_severity": {
+        "critical": 0,
+        "high": 0,
+        "medium": 7,
+        "low": 1
+      },
+      "grade_distribution": {
+        "A": 36
+      }
+    },
+    "skills": {
+      "autoplan": {
+        "score": 100,
+        "grade": "A",
+        "lines": 933,
+        "issues": 0
+      },
+      "benchmark": {
+        "score": 100,
+        "grade": "A",
+        "lines": 239,
+        "issues": 0
+      },
+      "canary": {
+        "score": 100,
+        "grade": "A",
+        "lines": 264,
+        "issues": 0
+      },
+      "careful": {
+        "score": 100,
+        "grade": "A",
+        "lines": 66,
+        "issues": 0
+      },
+      "checkpoint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 265,
+        "issues": 0
+      },
+      "codex": {
+        "score": 99,
+        "grade": "A",
+        "lines": 518,
+        "issues": 1
+      },
+      "cso": {
+        "score": 100,
+        "grade": "A",
+        "lines": 706,
+        "issues": 0
+      },
+      "design-consultation": {
+        "score": 100,
+        "grade": "A",
+        "lines": 661,
+        "issues": 0
+      },
+      "design-html": {
+        "score": 100,
+        "grade": "A",
+        "lines": 614,
+        "issues": 0
+      },
+      "design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 999,
+        "issues": 0
+      },
+      "design-shotgun": {
+        "score": 100,
+        "grade": "A",
+        "lines": 416,
+        "issues": 0
+      },
+      "devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 430,
+        "issues": 0
+      },
+      "document-release": {
+        "score": 100,
+        "grade": "A",
+        "lines": 422,
+        "issues": 0
+      },
+      "freeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 82,
+        "issues": 1
+      },
+      "guard": {
+        "score": 97,
+        "grade": "A",
+        "lines": 77,
+        "issues": 1
+      },
+      "investigate": {
+        "score": 100,
+        "grade": "A",
+        "lines": 241,
+        "issues": 0
+      },
+      "land-and-deploy": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1013,
+        "issues": 0
+      },
+      "learn": {
+        "score": 100,
+        "grade": "A",
+        "lines": 135,
+        "issues": 0
+      },
+      "office-hours": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1111,
+        "issues": 0
+      },
+      "plan-ceo-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1261,
+        "issues": 0
+      },
+      "plan-design-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 942,
+        "issues": 0
+      },
+      "plan-devex-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1258,
+        "issues": 0
+      },
+      "plan-eng-review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 851,
+        "issues": 0
+      },
+      "qa": {
+        "score": 100,
+        "grade": "A",
+        "lines": 850,
+        "issues": 0
+      },
+      "qa-only": {
+        "score": 100,
+        "grade": "A",
+        "lines": 426,
+        "issues": 0
+      },
+      "qstack-connectors": {
+        "score": 97,
+        "grade": "A",
+        "lines": 148,
+        "issues": 1
+      },
+      "qstack-memory": {
+        "score": 100,
+        "grade": "A",
+        "lines": 143,
+        "issues": 0
+      },
+      "qstack-package": {
+        "score": 100,
+        "grade": "A",
+        "lines": 283,
+        "issues": 0
+      },
+      "qstack-scheduled-ops": {
+        "score": 100,
+        "grade": "A",
+        "lines": 200,
+        "issues": 0
+      },
+      "qstack-sprint": {
+        "score": 100,
+        "grade": "A",
+        "lines": 243,
+        "issues": 0
+      },
+      "qstack-validate": {
+        "score": 94,
+        "grade": "A",
+        "lines": 115,
+        "issues": 2
+      },
+      "retro": {
+        "score": 100,
+        "grade": "A",
+        "lines": 904,
+        "issues": 0
+      },
+      "review": {
+        "score": 100,
+        "grade": "A",
+        "lines": 918,
+        "issues": 0
+      },
+      "setup-deploy": {
+        "score": 99,
+        "grade": "A",
+        "lines": 220,
+        "issues": 1
+      },
+      "ship": {
+        "score": 100,
+        "grade": "A",
+        "lines": 1996,
+        "issues": 0
+      },
+      "unfreeze": {
+        "score": 97,
+        "grade": "A",
+        "lines": 50,
+        "issues": 1
+      }
+    }
+  }
+]
