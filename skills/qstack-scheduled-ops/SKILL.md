@@ -190,3 +190,10 @@ schedule_cron(action="delete", cron_id="...")  # Remove a schedule
 2. **Credit awareness** — remind users that each scheduled run consumes credits. Suggest appropriate cadences, not aggressive ones.
 3. **Memory integration** — store metrics in Perplexity memory so trends can be tracked across runs.
 4. **Idempotent** — each run is self-contained. No state files to corrupt, no daemon to crash.
+
+## Skill Graph — What to Use Next
+
+Set up recurring automated versions of canary, cso, benchmark, or retro.
+
+**Feeds from:** `canary`, `cso`, `benchmark`, `retro`
+

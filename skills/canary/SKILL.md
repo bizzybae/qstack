@@ -11,6 +11,14 @@ name: canary
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Use `browser_task`** to load the production URL and check for console errors
+2. **Use `fetch_url`** for API health checks (faster, no browser overhead)
+3. **Use `screenshot_page`** to capture visual state for comparison
+4. **For continuous monitoring:** suggest `qstack-scheduled-ops` to set up a `schedule_cron` job
+5. **Search memory:** `memory_search` for pre-deploy baselines to compare against
+
 
 > **Browser access in Perplexity Computer:** Use `browser_task` to navigate and interact with web pages,
 > `screenshot_page` to capture screenshots, and `js_repl` with Playwright for advanced browser automation.
@@ -242,3 +250,14 @@ If the user chooses A, copy the latest screenshots to the baselines directory an
 - **Baseline is king.** Without a baseline, canary is a health check. Encourage `--baseline` before deploying.
 - **Performance thresholds are relative.** 2x baseline is a regression. 1.5x might be normal variance.
 - **Read-only.** Observe and report. Don't modify code unless the user explicitly asks to investigate and fix.
+
+## Skill Graph — What to Use Next
+
+If canary detects issues, use `investigate` for root cause. Suggest `qstack-scheduled-ops` to automate canary checks on a schedule.
+
+**Feeds from:** `land-and-deploy`
+
+**Next steps:** `investigate`
+
+**See also:** `qstack-scheduled-ops`
+

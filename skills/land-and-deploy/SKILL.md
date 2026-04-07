@@ -10,6 +10,15 @@ name: land-and-deploy
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Merge via CLI:** `bash` with `api_credentials=["github"]`: `gh pr merge [number] --squash`
+2. **Wait for CI:** `bash` with `api_credentials=["github"]`: `gh run list --limit 5` and poll until complete
+3. **Verify production:** use `browser_task` to load the production URL and check for errors, or `fetch_url` for API health checks
+4. **Search memory:** `memory_search` for this project's deploy config (platform, URLs, health endpoints)
+5. **If Slack connected:** post deploy notification (use `confirm_action` first)
+6. **At the end:** `memory_update` with deploy outcome
+
 
 > **Browser access in Perplexity Computer:** Use `browser_task` to navigate and interact with web pages,
 > `screenshot_page` to capture screenshots, and `js_repl` with Playwright for advanced browser automation.
@@ -992,3 +1001,12 @@ Then suggest relevant follow-ups:
 - **First run = teacher mode.** Walk the user through everything. Explain what each check does and why it matters. Show them their infrastructure. Let them confirm before proceeding. Build trust through transparency.
 - **Subsequent runs = efficient mode.** Brief status updates, no re-explanations. The user already trusts the tool — just do the job and report results.
 - **The goal is: first-timers think "wow, this is thorough — I trust it." Repeat users think "that was fast — it just works."**
+
+## Skill Graph — What to Use Next
+
+After deploy is verified, use `canary` for ongoing monitoring and `document-release` to sync docs. At week's end, use `retro`.
+
+**Feeds from:** `ship`
+
+**Next steps:** `canary`, `document-release`, `retro`
+

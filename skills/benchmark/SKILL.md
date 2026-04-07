@@ -11,6 +11,16 @@ name: benchmark
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Use `js_repl`** with Playwright for precise performance measurement:
+   - `page.goto(url)` with `waitUntil: 'networkidle'`
+   - `page.evaluate(() => performance.timing)` for load metrics
+   - `page.evaluate(() => performance.getEntriesByType('resource'))` for resource breakdown
+2. **Or use `browser_task`** for simpler page-load timing
+3. **Search memory:** `memory_search` for past benchmarks (prefix `benchmark:`) to compare
+4. **At the end:** `memory_update` with metrics (prefix with `benchmark:[project] [date]`)
+
 
 > **Browser access in Perplexity Computer:** Use `browser_task` to navigate and interact with web pages,
 > `screenshot_page` to capture screenshots, and `js_repl` with Playwright for advanced browser automation.
@@ -217,3 +227,12 @@ Write to `.qstack/benchmark-reports/{date}-benchmark.md` and `.qstack/benchmark-
 - **Third-party scripts are context.** Flag them, but the user can't fix Google Analytics being slow. Focus recommendations on first-party resources.
 - **Bundle size is the leading indicator.** Load time varies with network. Bundle size is deterministic. Track it religiously.
 - **Read-only.** Produce the report. Don't modify code unless explicitly asked.
+
+## Skill Graph — What to Use Next
+
+If regressions are found, use `investigate` for root cause. Suggest `qstack-scheduled-ops` to schedule nightly benchmarks.
+
+**Next steps:** `ship`, `investigate`
+
+**See also:** `qstack-scheduled-ops`
+

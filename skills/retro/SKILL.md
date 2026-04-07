@@ -11,6 +11,14 @@ name: retro
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Clone the repo:** `bash` with `api_credentials=["github"]`: `gh repo clone [owner/repo]`
+2. **Git log analysis:** `bash`: `git log --since='7 days ago' --stat --pretty=format:'%h %an %s'`
+3. **Search memory:** `memory_search` for past retros to track trends
+4. **If Slack/Notion connected:** post retro summary (use `confirm_action` first)
+5. **At the end:** `memory_update` with key metrics and action items (prefix with `sprint:`)
+
 
 ## Step 0: Detect platform and base branch
 
@@ -886,3 +894,10 @@ When the user runs `/retro compare` (or `/retro compare 14d`):
 - Do not read project custom instructions or other docs — this skill is self-contained
 - On first run (no prior retros), skip comparison sections gracefully
 - **Global mode:** Does NOT require being inside a git repo. Saves snapshots to `(qstack memory) retros/` (not `.context/retros/`). Gracefully skip AI tools that aren't installed. Only compare against prior global retros with the same window value. If streak hits 365d cap, display as "365+ days".
+
+## Skill Graph — What to Use Next
+
+The retro closes the sprint loop. Learnings feed into future `office-hours` sessions via `qstack-memory`.
+
+**Feeds from:** `land-and-deploy`, `document-release`
+

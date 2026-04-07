@@ -15,6 +15,14 @@ name: design-review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Capture current state:** use `screenshot_page(url="[staging_url]")` to take before screenshots
+2. **Clone the repo** for code fixes: `bash` with `api_credentials=["github"]`
+3. **After each fix:** `screenshot_page` again for after comparison, commit atomically
+4. **Search memory:** `memory_search` for this project's design system and past visual QA findings
+5. **At the end:** `memory_update` with issues found and fixed
+
 
 ## Setup
 
@@ -977,3 +985,14 @@ already knows. A good test: would this insight save time in a future session? If
 15. **Self-regulate.** Follow the design-fix risk heuristic. When in doubt, stop and ask.
 16. **CSS-first.** Prefer CSS/styling changes over structural component changes. CSS-only changes are safer and more reversible.
 17. **DESIGN.md export.** You MAY write a DESIGN.md file if the user accepts the offer from Phase 2.
+
+## Skill Graph — What to Use Next
+
+After visual fixes are committed, use `ship` to create the PR.
+
+**Feeds from:** `design-html`, `qa`
+
+**Next steps:** `ship`
+
+**Alternative:** Use `plan-design-review` for pre-implementation design critique.
+

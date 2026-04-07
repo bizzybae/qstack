@@ -1984,3 +1984,12 @@ This step is automatic — never skip it, never ask for confirmation.
 - **Never push without fresh verification evidence.** If code changed after Step 3 tests, re-run before pushing.
 - **Step 3.4 generates coverage tests.** They must pass before committing. Never commit failing tests.
 - **The goal is: user says `/ship`, next thing they see is the review + PR URL + auto-synced docs.**
+
+## Skill Graph — What to Use Next
+
+After the PR is created, use `land-and-deploy` to merge and verify production. Use `document-release` to update docs.
+
+**Feeds from:** `review`, `qa`, `cso`
+
+**Next steps:** `land-and-deploy`, `document-release`
+

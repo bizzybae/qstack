@@ -12,6 +12,11 @@ name: freeze
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+In Perplexity Computer, file operations are already sandboxed to `/home/user/workspace`.
+Freeze further restricts `edit` and `write` to a specific subdirectory within that workspace.
+
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
 
@@ -67,3 +72,10 @@ script reads it on every Edit/Write invocation.
 - Freeze applies to Edit and Write tools only — Read, Bash, Glob, Grep are unaffected
 - This prevents accidental edits, not a security boundary — Bash commands like `sed` can still modify files outside the boundary
 - To deactivate, run `/unfreeze` or end the conversation
+
+## Skill Graph — What to Use Next
+
+Use `unfreeze` to remove the restriction. Use `guard` for freeze + destructive command warnings.
+
+**See also:** `guard`, `careful`, `unfreeze`
+

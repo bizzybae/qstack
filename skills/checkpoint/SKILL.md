@@ -14,6 +14,14 @@ name: checkpoint
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Git state:** capture via `bash` with `api_credentials=["github"]`: `git status`, `git log --oneline -5`, `git branch`
+2. **Save checkpoint** to workspace: write a markdown file with current state, decisions made, remaining work
+3. **Use `memory_update`** to store the checkpoint summary for cross-session recall:
+   `"Remember: checkpoint:[project] [date] — on branch [x], completed [y], remaining [z]"`
+4. **Resume:** `memory_search` for `checkpoint:[project]` to find where you left off
+
 
 ## Detect command
 
@@ -249,3 +257,8 @@ If there are no checkpoints, tell the user: "No checkpoints saved yet. Run
   files. Each save creates a new file.
 - **Infer, don't interrogate.** Use git state and conversation context to fill in
   the checkpoint. Only use AskUserQuestion if the title genuinely cannot be inferred.
+
+## Skill Graph — What to Use Next
+
+Use at session boundaries or before switching branches. Resume with 'where was I?' in a new session.
+

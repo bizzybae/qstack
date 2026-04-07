@@ -13,6 +13,13 @@ name: design-shotgun
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Generate multiple variants** as HTML files in workspace
+2. **Deploy comparison board:** use `deploy_website` to host all variants at a public URL, or use `share_file` to send screenshots
+3. **Collect feedback** via `ask_user_question` with multi-select for which variants to iterate on
+4. **Search memory:** `memory_search` for the project's design system preferences
+
 
 ## DESIGN SETUP (run this check BEFORE any design mockup command)
 
@@ -397,3 +404,12 @@ If standalone, offer next steps via AskUserQuestion:
 4. **Taste memory is automatic.** Prior approved designs inform new generations by default.
 5. **Two rounds max on context gathering.** Don't over-interrogate. Proceed with assumptions.
 6. **DESIGN.md is the default constraint.** Unless the user says otherwise.
+
+## Skill Graph — What to Use Next
+
+After the user picks a variant, use `design-html` to finalize it into production HTML.
+
+**Feeds from:** `design-consultation`, `plan-design-review`
+
+**Next steps:** `design-html`
+

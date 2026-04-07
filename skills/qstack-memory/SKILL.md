@@ -136,3 +136,8 @@ Every qstack skill should:
 
 This creates a compounding knowledge loop: the more you use qstack, the smarter it gets
 about your specific codebase, patterns, and preferences.
+
+## Skill Graph — What to Use Next
+
+Invoke at the end of any skill to store learnings. Search at the start to retrieve past context.
+

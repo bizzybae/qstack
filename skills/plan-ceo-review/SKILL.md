@@ -15,6 +15,14 @@ name: plan-ceo-review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Read the design doc** from workspace if it exists (output of `office-hours`):
+   check `/home/user/workspace/` for `.md` files matching the project name
+2. **Search memory first:** `memory_search` for past reviews of this project, user's scope preferences, and previous CEO review findings
+3. **Save your review** to workspace so downstream skills can read it
+4. **At the end:** `memory_update` with key scope decisions and verdict
+
 
 ## Step 0: Detect platform and base branch
 
@@ -1241,3 +1249,12 @@ already knows. A good test: would this insight save time in a future session? If
   │ (Sec 11)    │  UI review   │  detected    │  detected    │                    │
   └─────────────┴──────────────┴──────────────┴──────────────┴────────────────────┘
 ```
+
+## Skill Graph — What to Use Next
+
+After CEO review approves the scope, move to eng review to lock the architecture.
+
+**Feeds from:** `office-hours`
+
+**Next steps:** `plan-eng-review`, `plan-design-review`
+

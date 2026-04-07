@@ -12,6 +12,13 @@ name: setup-deploy
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Detect deploy platform:** use `bash` to check for fly.toml, render.yaml, vercel.json, netlify.toml, Procfile, or GitHub Actions workflows in the repo
+2. **Save config** to workspace and `memory_update` so future `land-and-deploy` calls know the platform
+3. **No CLAUDE.md needed** — store deploy config in Perplexity memory instead:
+   `"Remember: project:[name] deploy — platform: [x], URL: [y], health: [z]"`
+
 
 ## User-invocable
 When the user types `/setup-deploy`, run this skill.
@@ -203,3 +210,10 @@ Next steps:
 - **project custom instructions is the source of truth.** All configuration lives there — not in a separate config file.
 - **Idempotent.** Running /setup-deploy multiple times overwrites the previous config cleanly.
 - **Platform CLIs are optional.** If `fly` or `vercel` CLI isn't installed, fall back to URL-based health checks.
+
+## Skill Graph — What to Use Next
+
+Run once per project to configure deploy settings. After setup, `land-and-deploy` handles future deploys automatically.
+
+**Next steps:** `land-and-deploy`
+

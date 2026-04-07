@@ -904,3 +904,14 @@ If the review exits early before a real review completes (for example, no diff a
 - **Be terse.** One line problem, one line fix. No preamble.
 - **Only flag real problems.** Skip anything that's fine.
 - **Use Greptile reply templates from greptile-triage.md.** Every reply includes evidence. Never post vague replies.
+
+## Skill Graph — What to Use Next
+
+After review passes, use `ship` to create the PR. For a second opinion, use `codex`.
+
+**Feeds from:** `investigate`
+
+**Next steps:** `ship`
+
+**See also:** `codex`
+

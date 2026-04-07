@@ -11,6 +11,12 @@ name: guard
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Combines sandbox awareness (`careful`) with directory restriction (`freeze`).
+Most useful when working on a cloned repo — restricts edits to the repo directory
+and warns before any `bash` commands that could affect remote resources.
+
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
 
@@ -61,3 +67,10 @@ Tell the user:
 
 See `/careful` for the full list of destructive command patterns and safe exceptions.
 See `/freeze` for how edit boundary enforcement works.
+
+## Skill Graph — What to Use Next
+
+Combines `careful` + `freeze`. Use `unfreeze` to remove the directory restriction.
+
+**See also:** `careful`, `freeze`, `unfreeze`
+

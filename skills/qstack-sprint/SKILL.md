@@ -235,3 +235,8 @@ If the user has connected apps, enhance the sprint:
 
 Check for connectors via `list_external_tools` at the start of the sprint. Don't require
 them — just use them if available.
+
+## Skill Graph — What to Use Next
+
+Orchestrates the full pipeline. For individual phases, use the specific skill directly.
+

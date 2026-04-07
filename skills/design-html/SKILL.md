@@ -14,6 +14,14 @@ name: design-html
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Read DESIGN.md** from workspace if it exists (output of `design-consultation`)
+2. **Generate HTML** and save to workspace files
+3. **Preview:** use `deploy_website` to host the page at a public URL, or `screenshot_page` to capture it
+4. **The `vendor/` directory** in this skill contains Pretext JS — reference it for layout patterns
+5. **Search memory:** `memory_search` for this project's design system and past HTML generation
+
 
 ## DESIGN SETUP (run this check BEFORE any design mockup command)
 
@@ -594,3 +602,12 @@ Use AskUserQuestion:
 
 - **One page per invocation.** For multi-page designs, run /design-html once per page.
   Each run produces one HTML file.
+
+## Skill Graph — What to Use Next
+
+After generating HTML, use `design-review` for visual QA or `qa` for full testing.
+
+**Feeds from:** `design-consultation`, `design-shotgun`, `plan-design-review`
+
+**Next steps:** `design-review`, `qa`
+

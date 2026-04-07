@@ -140,3 +140,8 @@ Every qstack skill works without any connected apps.
 3. **Confirm before posting** — always use `confirm_action` before sending messages, emails, or creating tickets
 4. **Relevant only** — don't post to Slack about a typo fix. Use judgment about what's worth notifying.
 5. **User's channels** — ask which Slack channel, which Notion database, which Linear project. Don't guess.
+
+## Skill Graph — What to Use Next
+
+Enhance any skill's output by posting to Slack, updating Notion, filing Linear tickets, or emailing summaries.
+

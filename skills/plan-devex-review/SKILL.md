@@ -14,6 +14,14 @@ name: plan-devex-review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Read the design doc and eng review** from workspace if available
+2. **For competitor benchmarking:** use `search_web` and `browser_task` to research competing developer experiences
+3. **Search memory:** `memory_search` for past DX reviews, known friction points, TTHW benchmarks
+4. **Save your review** to workspace
+5. **At the end:** `memory_update` with DX scores and persona-specific findings
+
 
 ## Step 0: Detect platform and base branch
 
@@ -1238,3 +1246,12 @@ Outside voice| Recommended      | Recommended        | Skip
 * One sentence max per option.
 * After each pass, pause and wait for feedback before moving on.
 * Rate before and after each pass for scannability.
+
+## Skill Graph — What to Use Next
+
+After plan-stage DX review, build the feature, then use `devex-review` to live-test the actual developer experience.
+
+**Feeds from:** `plan-eng-review`
+
+**Next steps:** `devex-review`
+

@@ -13,6 +13,15 @@ name: plan-design-review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Read the design doc** from workspace if available
+2. **For visual references:** use `search_vertical(vertical="image")` to find design inspiration
+3. **For existing site audits:** use `screenshot_page` to capture current state
+4. **Search memory:** `memory_search` for the project's design system, past design decisions
+5. **Save your review** to workspace
+6. **At the end:** `memory_update` with design dimension scores and key decisions
+
 
 ## Step 0: Detect platform and base branch
 
@@ -919,3 +928,14 @@ Use AskUserQuestion to present the next step. Include only applicable options:
 * One sentence max per option.
 * After each pass, pause and wait for feedback.
 * Rate before and after each pass for scannability.
+
+## Skill Graph — What to Use Next
+
+After plan-stage design review, use `design-consultation` to build the design system or `design-shotgun` to explore visual variants.
+
+**Feeds from:** `office-hours`, `plan-ceo-review`
+
+**Next steps:** `design-consultation`, `design-shotgun`
+
+**Alternative:** Use `design-review` instead for auditing a live site (post-implementation).
+

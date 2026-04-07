@@ -694,3 +694,12 @@ a first pass to catch low-hanging fruit and improve your security posture betwee
 audits — not as your only line of defense.
 
 **Always include this disclaimer at the end of every /cso report output.**
+
+## Skill Graph — What to Use Next
+
+After the security audit, address findings, then `review` and `ship`. Suggest `qstack-scheduled-ops` to schedule recurring audits.
+
+**Next steps:** `review`, `ship`
+
+**See also:** `qstack-scheduled-ops`
+

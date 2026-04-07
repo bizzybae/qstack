@@ -1099,3 +1099,12 @@ already knows. A good test: would this insight save time in a future session? If
   - DONE — design doc APPROVED
   - DONE_WITH_CONCERNS — design doc approved but with open questions listed
   - NEEDS_CONTEXT — user left questions unanswered, design incomplete
+
+## Skill Graph — What to Use Next
+
+Start here for new ideas. Outputs a design doc that feeds directly into the Plan phase.
+
+**Next steps:** `plan-ceo-review`, `plan-eng-review`
+
+**See also:** `plan-design-review`, `plan-devex-review`
+

@@ -10,6 +10,11 @@ name: unfreeze
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Removes the directory restriction set by `freeze` or `guard`, re-allowing
+`edit` and `write` across the full `/home/user/workspace`.
+
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
 
@@ -37,3 +42,8 @@ fi
 Tell the user the result. Note that `/freeze` hooks are still registered for the
 session — they will just allow everything since no state file exists. To re-freeze,
 run `/freeze` again.
+
+## Skill Graph — What to Use Next
+
+**See also:** `freeze`, `guard`
+

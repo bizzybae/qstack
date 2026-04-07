@@ -15,6 +15,13 @@ name: autoplan
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Use `run_subagent`** to dispatch parallel reviews (CEO, design, eng, DX) instead of sequential in-process calls
+2. **Workspace files are the handoff:** each review subagent reads the design doc and writes its review to a separate file
+3. **Search memory first:** `memory_search` for past autoplan results on this project
+4. **At the end:** `memory_update` with the combined verdict and key decisions
+
 
 ## Step 0: Detect platform and base branch
 
@@ -914,3 +921,12 @@ Suggest next step: `/ship` when ready to create the PR.
 - **Full depth means full depth.** Do not compress or skip sections from the loaded skill files (except the skip list in Phase 0). "Full depth" means: read the code the section asks you to read, produce the outputs the section requires, identify every issue, and decide each one. A one-sentence summary of a section is not "full depth" — it is a skip. If you catch yourself writing fewer than 3 sentences for any review section, you are likely compressing.
 - **Artifacts are deliverables.** Test plan artifact, failure modes registry, error/rescue table, ASCII diagrams — these must exist on disk or in the plan file when the review completes. If they don't exist, the review is incomplete.
 - **Sequential order.** CEO → Design → Eng → DX. Each phase builds on the last.
+
+## Skill Graph — What to Use Next
+
+Autoplan runs CEO + design + eng + DX reviews in sequence automatically. After it completes, move to building, then `review` and `ship`.
+
+**Feeds from:** `office-hours`
+
+**Next steps:** `review`, `ship`
+

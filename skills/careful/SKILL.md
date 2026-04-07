@@ -12,6 +12,12 @@ name: careful
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+The `bash` tool in Perplexity Computer runs in an isolated sandbox, so destructive commands
+cannot affect your local machine. However, commands run with `api_credentials=["github"]`
+can affect your real repositories (force-push, delete branches). Apply extra caution there.
+
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
 
@@ -50,3 +56,10 @@ patterns above, and returns `permissionDecision: "ask"` with a warning message
 if a match is found. You can always override the warning and proceed.
 
 To deactivate, end the conversation or start a new one. Hooks are session-scoped.
+
+## Skill Graph — What to Use Next
+
+For directory-scoped protection, use `freeze`. For both safety warnings and directory lock, use `guard`.
+
+**See also:** `guard`, `freeze`
+

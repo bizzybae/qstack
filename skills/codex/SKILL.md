@@ -12,6 +12,15 @@ name: codex
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+In Perplexity Computer, the "second opinion" is obtained via `run_subagent` with a different model:
+
+1. **Code review mode:** `run_subagent(subagent_type="codebase", model="gpt_5_4", objective="Review the diff...")` 
+2. **Challenge mode:** `run_subagent(model="claude_opus_4_6", objective="Try to break this code...")`
+3. **Consult mode:** `run_subagent(model="gemini_3_1_pro", objective="[question]")`
+4. **Spawn multiple models in parallel** for a panel of opinions
+
 
 ## Step 0: Detect platform and base branch
 
@@ -497,3 +506,12 @@ If token count is not available, display: `Tokens: unknown`
   `SKILL.md`, or `skills/qstack`. If any of these appear in the output, append a
   warning: "Codex appears to have read qstack skill files instead of reviewing your
   code. Consider retrying."
+
+## Skill Graph — What to Use Next
+
+After getting a second opinion, proceed to `ship` if both reviews pass.
+
+**Feeds from:** `review`
+
+**Next steps:** `ship`
+

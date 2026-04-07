@@ -12,6 +12,14 @@ name: document-release
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Clone the repo:** `bash` with `api_credentials=["github"]`: `gh repo clone [owner/repo]`
+2. **Read the diff:** `bash`: `git diff main...HEAD` to see what changed
+3. **Use `read` and `edit`** to update docs in the workspace, then commit via `bash`
+4. **Search memory:** `memory_search` for doc style preferences and past doc-release notes
+5. **At the end:** `memory_update` with what docs were updated
+
 
 ## Step 0: Detect platform and base branch
 
@@ -402,3 +410,12 @@ Where status is one of:
 - **Discoverability matters.** Every doc file should be reachable from README or project custom instructions.
 - **Voice: friendly, user-forward, not obscure.** Write like you're explaining to a smart person
   who hasn't seen the code.
+
+## Skill Graph — What to Use Next
+
+After docs are updated, the sprint is complete. At week's end, use `retro`.
+
+**Feeds from:** `ship`, `land-and-deploy`
+
+**Next steps:** `retro`
+

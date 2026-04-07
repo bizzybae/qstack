@@ -12,6 +12,16 @@ name: qa-only
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+Same browser tools as `qa` but report-only — no code changes:
+
+1. **Navigate:** `browser_task(url="[staging_url]", task="Test the [flow]...")`
+2. **Screenshots:** `screenshot_page(url="[url]")` for evidence
+3. **Advanced flows:** `js_repl` with Playwright for multi-step testing
+4. **Save report** to workspace via `write`; share via `share_file`
+5. **If Linear/Jira connected:** create bug tickets from the report
+
 
 ## Setup
 
@@ -404,3 +414,12 @@ already knows. A good test: would this insight save time in a future session? If
 
 11. **Never fix bugs.** Find and document only. Do not read source code, edit files, or suggest fixes in the report. Your job is to report what's broken, not to fix it. Use `/qa` for the test-fix-verify loop.
 12. **No test framework detected?** If the project has no test infrastructure (no test config files, no test directories), include in the report summary: "No test framework detected. Run `/qa` to bootstrap one and enable regression test generation."
+
+## Skill Graph — What to Use Next
+
+After receiving the report, use `qa` if you want the agent to fix the bugs it found.
+
+**Next steps:** `qa`
+
+**Alternative:** Use `qa` instead for the full test-fix-verify loop.
+

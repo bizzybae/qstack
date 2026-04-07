@@ -12,6 +12,14 @@ name: plan-eng-review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Read the design doc and CEO review** from workspace if they exist
+2. **Search memory:** `memory_search` for architecture decisions, past eng reviews, and known pitfalls for this tech stack
+3. **For architecture diagrams:** use ASCII art directly in the output (renders well in Perplexity)
+4. **Save your review** to workspace for the build phase
+5. **At the end:** `memory_update` with architecture decisions and test matrix
+
 
 ## Priority hierarchy
 If the user asks you to compress or the system triggers context compaction: Step 0 > Test diagram > Opinionated recommendations > Everything else. Never skip Step 0 or the test diagram. Do not preemptively warn about context limits -- the system handles compaction automatically.
@@ -831,3 +839,12 @@ Use AskUserQuestion with only the applicable options:
 
 ## Unresolved decisions
 If the user does not respond to an AskUserQuestion or interrupts to move on, note which decisions were left unresolved. At the end of the review, list these as "Unresolved decisions that may bite you later" — never silently default to an option.
+
+## Skill Graph — What to Use Next
+
+After eng review locks the architecture, start building — or run design/DX review if the feature has UI or developer-facing components.
+
+**Feeds from:** `office-hours`, `plan-ceo-review`
+
+**Next steps:** `plan-design-review`, `plan-devex-review`
+

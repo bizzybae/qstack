@@ -14,6 +14,14 @@ name: devex-review
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Live-test the DX:** use `browser_task` to navigate docs, try getting-started flows, and time TTHW
+2. **Capture evidence:** `screenshot_page` for error messages, confusing UI, broken links
+3. **Compare to plan:** if `plan-devex-review` was run, `read` its output from workspace and compare scores
+4. **Search memory:** `memory_search` for past DX findings and benchmarks
+5. **At the end:** `memory_update` with DX scorecard and comparison to plan-stage predictions
+
 
 ## Step 0: Detect platform and base branch
 
@@ -410,3 +418,12 @@ After the audit, recommend:
 * NUMBER issues (1, 2, 3...) and LETTERS for options (A, B, C...).
 * Rate every dimension with evidence source.
 * Screenshots are the gold standard. File references are acceptable. Guesses are not.
+
+## Skill Graph — What to Use Next
+
+After the DX audit, fix issues, then `ship`. If docs need updating, use `document-release`.
+
+**Feeds from:** `plan-devex-review`
+
+**Next steps:** `ship`, `document-release`
+

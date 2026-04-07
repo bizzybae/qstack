@@ -11,6 +11,15 @@ name: learn
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+In Perplexity Computer, learnings are stored in the platform's native memory system:
+
+1. **Store:** `memory_update(content="Remember: [category]:[project] — [learning]")`
+2. **Search:** `memory_search(queries=["project learnings for [project]"])`
+3. **Categories:** project, pattern, pitfall, preference, decision, codebase, review, sprint
+4. **See `qstack-memory`** for the full taxonomy and retrieval strategies
+
 
 ## Detect command
 
@@ -116,4 +125,10 @@ The user wants to manually add a learning. Use AskUserQuestion to gather:
 5. Related files (optional)
 
 Then log it:
+
+## Skill Graph — What to Use Next
+
+`qstack-memory` provides structured naming conventions for Perplexity's built-in memory system.
+
+**See also:** `qstack-memory`
 

@@ -16,6 +16,14 @@ name: design-consultation
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Research the landscape:** use `search_web` and `search_vertical(vertical="image")` to study competitors and design trends
+2. **Font previews:** use `deploy_website` to host a preview page, or `screenshot_page` to capture it
+3. **Save DESIGN.md** to workspace — downstream skills (`design-html`, `design-shotgun`) read it
+4. **Search memory:** `memory_search` for the user's brand preferences and past design decisions
+5. **At the end:** `memory_update` with the design system summary (prefix with `project:`)
+
 
 ## Phase 0: Pre-checks
 
@@ -641,3 +649,12 @@ already knows. A good test: would this insight save time in a future session? If
 6. **Conversational tone.** This isn't a rigid workflow. If the user wants to talk through a decision, engage as a thoughtful design partner.
 7. **Accept the user's final choice.** Nudge on coherence issues, but never block or refuse to write a DESIGN.md because you disagree with a choice.
 8. **No AI slop in your own output.** Your recommendations, your preview page, your DESIGN.md — all should demonstrate the taste you're asking the user to adopt.
+
+## Skill Graph — What to Use Next
+
+After creating the design system (DESIGN.md), use `design-html` to generate production HTML or `design-shotgun` to explore variants.
+
+**Feeds from:** `plan-design-review`
+
+**Next steps:** `design-html`, `design-shotgun`
+

@@ -13,6 +13,13 @@ name: investigate
 
 > Adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT License) for use with Perplexity Computer.
 
+## Perplexity Computer Environment
+
+1. **Clone the repo** if needed: `bash` with `api_credentials=["github"]`: `gh repo clone [owner/repo]`
+2. **Search memory:** `memory_search` for past bugs, known pitfalls, and previous investigations on this codebase
+3. **For live debugging:** use `browser_task` to reproduce issues in the browser, `screenshot_page` to capture error states
+4. **At the end:** `memory_update` with root cause and the pitfall pattern (prefix with `pitfall:`)
+
 
 ## Iron Law
 
@@ -224,3 +231,10 @@ already knows. A good test: would this insight save time in a future session? If
   - DONE — root cause found, fix applied, regression test written, all tests pass
   - DONE_WITH_CONCERNS — fixed but cannot fully verify (e.g., intermittent bug, requires staging)
   - BLOCKED — root cause unclear after investigation, escalated
+
+## Skill Graph — What to Use Next
+
+After root cause is found and fix is implemented, use `review` to check the diff, then `ship` to create the PR.
+
+**Next steps:** `review`, `ship`
+
