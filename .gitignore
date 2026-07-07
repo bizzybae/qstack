@@ -7,3 +7,4 @@ qstack-zips/
 qstack-upload/
 *.pyc
 __pycache__/
+.gstack/
