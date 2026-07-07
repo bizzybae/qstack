@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AENS | The Atmospheric Energy Navigation System</title>
+<meta name="description" content="AENS is open source flight software that lets electric aircraft harvest the atmosphere's own energy. See the physics, the live demo, and the economics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot"></span>AENS</a>
+    <button class="menu-btn" onclick="document.getElementById('nl').classList.toggle('open')">Menu</button>
+    <div class="nav-links" id="nl">
+      <a href="index.html" class="active">Investors</a>
+      <a href="technology.html">Technology</a>
+      <a href="dashboard.html">Live demo</a>
+      <a href="#economics">Economics</a>
+      <a href="dashboard.html" class="cta">Fly the demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="dark hero">
+  <div class="wrap">
+    <span class="tag">Atmospheric Energy Navigation System</span>
+    <h1>Electric aircraft are starving for energy.<br>The sky is <span class="accent">full of it.</span></h1>
+    <p class="hero-sub">AENS is flight software that reads the invisible energy in the atmosphere, maps it, and routes aircraft through it. Rising air becomes free fuel. The motor becomes a backup. Endurance roughly doubles on an ordinary sunny day, with no new battery required.</p>
+    <div class="hero-ctas">
+      <a class="btn primary" href="dashboard.html">Watch it fly</a>
+      <a class="btn ghost" href="#economics">See the economics</a>
+      <a class="btn ghost" href="technology.html">Check the physics</a>
+    </div>
+  </div>
+  <div class="hero-canvas-wrap">
+    <div class="hero-hud">
+      <span>ALT <b id="hudAlt">1240 m</b></span>
+      <span>VARIO <b id="hudVar" class="on">+1.4 m/s</b></span>
+      <span>MOTOR <b id="hudMot" class="off">OFF</b></span>
+      <span>BATTERY <b id="hudBat">96%</b></span>
+    </div>
+    <canvas id="heroSky"></canvas>
+  </div>
+</header>
+
+<!-- STAT BAND -->
+<section class="dark" style="padding-top:48px">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="num">1 to 5 m/s</div><div class="lbl">Typical climb rate inside thermals, the rising air columns over sun-heated ground</div><div class="src">Boundary layer meteorology</div></div>
+      <div class="stat"><div class="num">3,000+ km</div><div class="lbl">Longest single glider flight ever flown with zero propulsive energy</div><div class="src">Crewed soaring record</div></div>
+      <div class="stat"><div class="num">2x</div><div class="lbl">Endurance class demonstrated by government autonomous soaring flight tests</div><div class="src">NASA and US Naval Research Lab</div></div>
+      <div class="stat"><div class="num">$0</div><div class="lbl">Cost of the fuel. The sun replenishes it every single day</div><div class="src">Solar convection</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="light" id="problem">
+  <div class="wrap">
+    <span class="tag">The problem</span>
+    <h2>Everyone in electric aviation is fighting the same battery</h2>
+    <div class="grid2">
+      <div>
+        <p>A kilogram of jet fuel carries roughly 20 times more useful energy than a kilogram of the best certified battery pack, even after engine losses. That single number is why battery drones fly for under an hour while fuel aircraft fly all day.</p>
+        <p style="margin-top:14px">Batteries improve about 5 to 8 percent per year. Hundreds of companies are waiting for that curve, and whenever it moves, it moves for all of them at once. Waiting is not an edge.</p>
+        <p style="margin-top:14px"><strong>Endurance = energy stored &divide; power required.</strong> The whole industry works on the top of that fraction. AENS works on the bottom, and in rising air it drives the power required below zero.</p>
+      </div>
+      <figure class="chart">
+        <svg viewBox="0 0 460 240" role="img" aria-label="Bar chart comparing useful onboard energy: jet fuel about 3900 watt hours per kilogram versus battery pack about 190 watt hours per kilogram">
+          <text x="10" y="24" font-family="IBM Plex Mono" font-size="12" fill="#5B7085">USEFUL ONBOARD ENERGY, Wh PER kg</text>
+          <rect x="10" y="50" width="400" height="52" rx="6" fill="#0B2237"></rect>
+          <text x="20" y="82" font-family="Instrument Sans" font-size="15" fill="#fff">Jet fuel, after engine losses</text>
+          <text x="420" y="82" font-family="IBM Plex Mono" font-size="14" fill="#0B2237" text-anchor="end" dx="30">3,900</text>
+          <rect x="10" y="130" width="20" height="52" rx="4" fill="#EE7126"></rect>
+          <text x="42" y="156" font-family="Instrument Sans" font-size="15" fill="#14283A">Best Li-ion pack, 2026</text>
+          <text x="42" y="176" font-family="IBM Plex Mono" font-size="14" fill="#B25B12">190</text>
+          <line x1="10" y1="210" x2="450" y2="210" stroke="#D5E3EE"></line>
+          <text x="10" y="230" font-family="IBM Plex Mono" font-size="11" fill="#5B7085">A 20x GAP THAT CHEMISTRY WILL NOT CLOSE THIS DECADE</text>
+        </svg>
+        <figcaption>Why electric endurance is short today</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- IDEA -->
+<section id="idea">
+  <div class="wrap">
+    <span class="tag">The idea, in one minute</span>
+    <h2>Hawks do not carry fuel. Neither should software have to.</h2>
+    <p class="lead">Watch a hawk on a summer afternoon. It finds a column of warm rising air, circles inside it, climbs hundreds of meters without a single flap, then glides for kilometers. Glider pilots copy the trick and fly across entire countries on it. AENS gives that instinct to any electric aircraft.</p>
+    <div class="cards3" style="margin-top:36px">
+      <div class="card">
+        <h3><span class="mono">01 /</span> See the invisible</h3>
+        <p>A small sensor kit measures how the air is pushing the aircraft around, thousands of times a second. An infrared camera watches which ground is hot, and a sky camera watches the clouds that mark rising air. Together they reveal a live 3D picture of the wind that no human eye can see.</p>
+      </div>
+      <div class="card">
+        <h3><span class="mono">02 /</span> Navigate in 4D</h3>
+        <p>Normal autopilots know latitude, longitude, and altitude, and ask "what is the shortest path?" AENS adds a fourth dimension, energy availability, and asks a better question: "which path needs the least battery?" Sometimes a 500 meter detour into rising air pays for 30 kilometers of free glide.</p>
+      </div>
+      <div class="card">
+        <h3><span class="mono">03 /</span> Learn as a fleet</h3>
+        <p>Every equipped aircraft reports where it found lift. One aircraft's discovery becomes every aircraft's route option, and over the seasons the fleet builds a permanent map of where the sky's energy lives. Think Waze, but for energy in the air instead of traffic on the road.</p>
+      </div>
+    </div>
+    <p class="note">Hard safety rule: the battery reserve needed to finish the mission with zero help from the atmosphere is never touched. Free energy is always a bonus, never a dependency.</p>
+  </div>
+</section>
+
+<!-- PHYSICS -->
+<section class="light" id="physics">
+  <div class="wrap">
+    <span class="tag">Physics that checks out</span>
+    <h2>One climb in rising air is worth a quarter of the battery</h2>
+    <div class="grid2">
+      <figure class="chart">
+        <svg viewBox="0 0 460 260" role="img" aria-label="Energy flow diagram: a 25 kilogram aircraft climbing 1000 meters in a thermal banks 68 watt hours of potential energy, equal to about 105 watt hours of battery draw, about 26 percent of a 400 watt hour pack">
+          <text x="10" y="22" font-family="IBM Plex Mono" font-size="12" fill="#5B7085">REFERENCE AIRCRAFT: 25 kg, GLIDE RATIO 30:1, 400 Wh PACK</text>
+          <rect x="10" y="40" width="210" height="58" rx="8" fill="#EAF3FA" stroke="#D5E3EE"></rect>
+          <text x="22" y="64" font-family="Instrument Sans" font-size="14" fill="#14283A">One thermal climb</text>
+          <text x="22" y="84" font-family="IBM Plex Mono" font-size="13" fill="#B25B12">+1,000 m altitude</text>
+          <path d="M225 69 L255 69" stroke="#EE7126" stroke-width="2" marker-end="url(#ar)"></path>
+          <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#EE7126"></path></marker></defs>
+          <rect x="260" y="40" width="190" height="58" rx="8" fill="#0B2237"></rect>
+          <text x="272" y="64" font-family="Instrument Sans" font-size="14" fill="#fff">Energy banked (mgh)</text>
+          <text x="272" y="84" font-family="IBM Plex Mono" font-size="13" fill="#EE7126">68 Wh mechanical</text>
+          <rect x="10" y="126" width="440" height="58" rx="8" fill="#FFFFFF" stroke="#D5E3EE"></rect>
+          <text x="22" y="150" font-family="Instrument Sans" font-size="14" fill="#14283A">Battery cost of the same climb, after motor and propeller losses</text>
+          <text x="22" y="170" font-family="IBM Plex Mono" font-size="13" fill="#B25B12">about 105 Wh electric = 26% of the whole pack</text>
+          <rect x="10" y="200" width="440" height="46" rx="8" fill="#E3F4EA"></rect>
+          <text x="22" y="228" font-family="Instrument Sans" font-size="14" fill="#22794C">That altitude glides 30 km forward at zero energy cost</text>
+        </svg>
+        <figcaption>mgh does not lie: 25 kg x 9.81 x 1,000 m = 245 kJ = 68 Wh</figcaption>
+      </figure>
+      <div>
+        <p>These are not projections. They are conservation of energy, plus updraft speeds that meteorologists have measured for a century, plus glide performance that sailplane makers have delivered for decades.</p>
+        <div class="icon-row"><div class="ic">&Sigma;</div><div><strong>The floor, any weather:</strong> flying the mathematically correct speeds through measured lift and sink saves an estimated 5 to 15 percent of energy before a single thermal is used.</div></div>
+        <div class="icon-row"><div class="ic">&uarr;</div><div><strong>An ordinary sunny day:</strong> motor off for the majority of the flight, the regime government flight tests already demonstrated. Endurance class: 2x on the same battery.</div></div>
+        <div class="icon-row"><div class="ic">&infin;</div><div><strong>A strong day:</strong> quasi-indefinite daytime flight for a sailplane class aircraft, with the battery reserved for takeoff and landing.</div></div>
+        <p style="margin-top:10px">Every claim on this site is tiered by weather and carries a confidence level on the technology page. <a href="technology.html">Read the full derivations and prior flight demonstrations.</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVEN -->
+<section class="dark">
+  <div class="wrap">
+    <span class="tag">Already flown</span>
+    <h2>The hard part has been demonstrated. Nobody productized it.</h2>
+    <div class="cards3" style="margin-top:30px">
+      <div class="card"><h3>NASA, 2005 to 2007</h3><p>An autonomous drone found and climbed real thermals in flight tests over the Mojave, gaining altitude with the motor off.</p></div>
+      <div class="card"><h3>US Naval Research Lab</h3><p>The ALOFT program flew multi-hour small drone flights with the motor off for most of the flight, and even had two aircraft share thermal locations with each other.</p></div>
+      <div class="card"><h3>Nature journal, 2018</h3><p>Researchers trained a learning algorithm to soar a glider in real turbulent air, published in one of the world's top scientific journals. Microsoft Research flew AI sailplanes the same year.</p></div>
+    </div>
+    <p class="lead" style="margin-top:26px;max-width:60ch">Every one of those systems started each flight knowing nothing. None of them built the thing that compounds: the shared, permanent map of where the sky's energy lives. That map is the business.</p>
+  </div>
+</section>
+
+<!-- ECONOMICS -->
+<section class="light" id="economics">
+  <div class="wrap">
+    <span class="tag">The economics</span>
+    <h2>Open source idea. Very closed loop on profit.</h2>
+    <div class="grid2" style="align-items:start">
+      <div>
+        <h3>Why give the algorithms away?</h3>
+        <p>The core soaring algorithms are already public science, published by NASA, the Navy, and universities. Pretending to own them would be a paper moat. Open sourcing the flight code does what open source does best: it recruits researchers, builds trust with defense buyers who must audit their autonomy, and makes AENS the standard everyone builds on.</p>
+        <h3 style="margin-top:22px">Then where does the money come from?</h3>
+        <p>The same places it comes from for Android and Red Hat. The code is free. Three things are not:</p>
+        <div class="icon-row"><div class="ic">K</div><div><strong>Certified sensor kits.</strong> Calibrated, flight-proven hardware sold at roughly $24k per aircraft. Anyone can read the schematic; operators still buy the certified unit.</div></div>
+        <div class="icon-row"><div class="ic">M</div><div><strong>The energy map network.</strong> A hosted subscription, about $9k per aircraft per year, that gives every customer the fleet's accumulated knowledge of where lift lives. The data cannot be forked. It has to be flown.</div></div>
+        <div class="icon-row"><div class="ic">S</div><div><strong>Integration and support.</strong> Engineering contracts to put AENS on manufacturers' aircraft, plus defense programs.</div></div>
+      </div>
+      <div>
+        <h3>Producer model, modeled scenario</h3>
+        <div class="table-scroll"><table>
+          <thead><tr><th>Year</th><th class="num">Fleet (cum.)</th><th class="num">Kit revenue</th><th class="num">Subscription</th><th class="num">Total revenue</th><th class="num">Gross profit</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="num">60</td><td class="num">$1.4M</td><td class="num">$0.5M</td><td class="num">$2.0M</td><td class="num">$1.1M</td></tr>
+            <tr><td>2</td><td class="num">250</td><td class="num">$4.6M</td><td class="num">$2.3M</td><td class="num">$6.8M</td><td class="num">$4.0M</td></tr>
+            <tr><td>3</td><td class="num">700</td><td class="num">$10.8M</td><td class="num">$6.3M</td><td class="num">$17.1M</td><td class="num">$10.2M</td></tr>
+            <tr><td>4</td><td class="num">1,600</td><td class="num">$21.6M</td><td class="num">$14.4M</td><td class="num">$36.0M</td><td class="num">$22.0M</td></tr>
+            <tr class="total"><td>5</td><td class="num">3,000</td><td class="num">$33.6M</td><td class="num">$27.0M</td><td class="num">$60.6M</td><td class="num">$38.1M</td></tr>
+          </tbody>
+        </table></div>
+        <p class="note">Assumptions: kits at $24k with 45% gross margin; subscriptions at $9k per aircraft per year with 85% gross margin; fleet ramp of 60 / 250 / 700 / 1,600 / 3,000 cumulative aircraft. Illustrative model, not a forecast. Subscription becomes the majority of gross profit by year 4, and it renews.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section class="dark" id="roi">
+  <div class="wrap">
+    <span class="tag">Interactive</span>
+    <h2>Run the operator's numbers yourself</h2>
+    <p class="lead">Drag the sliders. The math updates live. This is the pitch an operator hears: doubling endurance with software is an order of magnitude cheaper than buying and crewing more aircraft.</p>
+    <div class="calc" style="margin-top:30px">
+      <div>
+        <label>Fleet size <output id="oN">10 aircraft</output></label>
+        <input type="range" id="inN" min="1" max="100" value="10">
+        <label>Weather mix, endurance multiplier <output id="oM">2.0x</output></label>
+        <input type="range" id="inM" min="15" max="25" value="20">
+        <label>Annual cost of one extra aircraft + crew <output id="oC">$96k / yr</output></label>
+        <input type="range" id="inC" min="60" max="200" value="96" step="2">
+        <p class="note">AENS side of the ledger is fixed in this model: $24k kit amortized over 5 years plus a $9k per year subscription, $13.8k per aircraft per year all-in.</p>
+      </div>
+      <div class="calc-out">
+        <div class="readout"><div class="k">Aircraft-equivalents of coverage gained</div><div class="v orange" id="rEq">+10.0</div></div>
+        <div class="readout"><div class="k">Net savings per year, whole fleet</div><div class="v green" id="rSav">$822,000</div></div>
+        <div class="readout"><div class="k">Return on annual AENS spend</div><div class="v" id="rRoi">6.0x</div></div>
+        <div class="readout"><div class="k">Payback time on the sensor kit</div><div class="v" id="rPay">3.3 months</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET / WHO BUYS -->
+<section>
+  <div class="wrap">
+    <span class="tag">Who buys first</span>
+    <h2>Missions where staying up longer is the entire point</h2>
+    <div class="compare" style="margin-top:26px">
+      <div class="col old">
+        <h3><span>The crowded game</span>Everyone else</h3>
+        <ul>
+          <li>Hundreds of lookalike electric airframes</li>
+          <li>Single-digit percent gains in motors and aerodynamics</li>
+          <li>The same battery supply chain for everyone</li>
+          <li>Endurance capped by chemistry</li>
+        </ul>
+      </div>
+      <div class="col new">
+        <h3><span>The AENS game</span>Software plus data</h3>
+        <ul>
+          <li class="hot">Wildfire watch: hot afternoons make the best thermals, exactly when fires start</li>
+          <li>Border, coastline, and maritime patrol</li>
+          <li>Pipeline, powerline, and rail inspection</li>
+          <li>Every existing airframe is a customer, not a competitor</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:24px;max-width:62ch">And when batteries do improve? Great. Better batteries multiply AENS instead of replacing it: more stored energy times less energy needed.</p>
+  </div>
+</section>
+
+<!-- DEMO CTA -->
+<section class="dark" style="text-align:center">
+  <div class="wrap">
+    <span class="tag">See it work</span>
+    <h2>Fly the prototype dashboard</h2>
+    <p class="lead" style="margin:0 auto 26px">A live simulation of the finished product: the energy map, the route the planner chooses, and the battery gauge that barely moves. Flip AENS off and watch the difference.</p>
+    <a class="btn primary" href="dashboard.html">Open the live demo</a>
+    <a class="btn ghost" href="technology.html" style="margin-left:10px">Read the technology</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><a class="brand" href="index.html" style="color:#fff"><span class="dot"></span>AENS</a></div>
+    <div>Atmospheric Energy Navigation System. Open source flight energy software.<br>
+    <a href="index.html">Investors</a> &nbsp;&middot;&nbsp; <a href="technology.html">Technology</a> &nbsp;&middot;&nbsp; <a href="dashboard.html">Live demo</a></div>
+    <p class="disclaimer">This site describes an open source engineering concept and an illustrative business model built on it. All financial figures are modeled scenarios with stated assumptions, not forecasts, and nothing on this site is an offer to sell securities or a solicitation of investment. Physical performance claims are tiered by weather conditions; derivations, sources, and confidence levels are on the technology page. Demonstration visuals are simulations.</p>
+  </div>
+</footer>
+
+<script>
+// ---------- ROI calculator ----------
+const $=id=>document.getElementById(id);
+function fmtMoney(x){return x>=1e6?('$'+(x/1e6).toFixed(2)+'M'):('$'+Math.round(x).toLocaleString());}
+function calc(){
+  const N=+$('inN').value, M=+$('inM').value/10, C=+$('inC').value*1000;
+  const aensPerYr=24000/5+9000;                 // 13,800 per aircraft per year
+  const eq=N*(M-1);
+  const savings=eq*C-N*aensPerYr;
+  const spend=N*aensPerYr;
+  const roi=spend>0?(eq*C)/spend:0;
+  const perAcYr=(M-1)*C-9000;                   // ongoing net value per aircraft, ignoring amortization
+  const payback=perAcYr>0?24000/(perAcYr/12):Infinity;
+  $('oN').textContent=N+' aircraft';
+  $('oM').textContent=M.toFixed(1)+'x';
+  $('oC').textContent='$'+Math.round(C/1000)+'k / yr';
+  $('rEq').textContent='+'+eq.toFixed(1);
+  $('rSav').textContent=fmtMoney(Math.max(0,savings));
+  $('rRoi').textContent=roi.toFixed(1)+'x';
+  $('rPay').textContent=isFinite(payback)?payback.toFixed(1)+' months':'n/a';
+}
+['inN','inM','inC'].forEach(id=>$(id).addEventListener('input',calc));calc();
+
+// ---------- Hero boundary-layer animation ----------
+(function(){
+  const cv=$('heroSky');if(!cv)return;
+  const ctx=cv.getContext('2d');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,Hh;function size(){W=cv.width=cv.offsetWidth*devicePixelRatio;Hh=cv.height=cv.offsetHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+  size();addEventListener('resize',size);
+  // world: x in [0,1) wraps; thermals at fixed x with strength
+  const thermals=[{x:.16,s:1.9},{x:.42,s:2.6},{x:.68,s:1.6},{x:.9,s:2.2}];
+  const parts=[];for(let i=0;i<90;i++){const t=thermals[i%thermals.length];parts.push({t,off:(Math.random()-.5)*.035,y:Math.random()});}
+  const glider={x:0,alt:.55,motor:false,bat:.96,vs:0};
+  let last=0;
+  function frame(ts){
+    const dt=reduced?0:Math.min(.05,(ts-last)/1000);last=ts;
+    const w=cv.offsetWidth,h=cv.offsetHeight,ground=h-34;
+    ctx.clearRect(0,0,w,h);
+    // sky gradient
+    const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#0B2237');g.addColorStop(1,'#12314C');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    // ground with hot patches under thermals
+    ctx.fillStyle='#153A57';ctx.fillRect(0,ground,w,h-ground);
+    thermals.forEach(t=>{const px=t.x*w;
+      ctx.fillStyle='rgba(238,113,38,.5)';ctx.beginPath();ctx.ellipse(px,ground+16,34*t.s/2,7,0,0,7);ctx.fill();
+      // cumulus cap
+      ctx.fillStyle='rgba(233,242,250,.16)';
+      ctx.beginPath();ctx.ellipse(px,44,30*t.s,13,0,0,7);ctx.ellipse(px-20,52,20,10,0,0,7);ctx.ellipse(px+22,52,22,10,0,0,7);ctx.fill();
+    });
+    // thermal particle plumes
+    parts.forEach(p=>{
+      p.y-=dt*(.10*p.t.s);if(p.y<0)p.y=1;
+      const px=(p.t.x+p.off*Math.sin(p.y*9))*w, py=ground-p.y*(ground-58);
+      ctx.fillStyle='rgba(238,113,38,'+(0.10+0.25*(1-p.y))+')';
+      ctx.beginPath();ctx.arc(px,py,2.1,0,7);ctx.fill();
+    });
+    // glider dynamics
+    if(dt>0){
+      glider.x=(glider.x+dt*.045)%1;
+      let inLift=null;
+      thermals.forEach(t=>{const dx=Math.abs(((glider.x-t.x+1.5)%1)-.5);if(dx<.030)inLift=t;});
+      if(inLift&&glider.alt<.86){glider.vs=inLift.s*.05;glider.motor=false;}
+      else if(glider.alt<.22){glider.motor=true;glider.vs=.045;glider.bat=Math.max(.3,glider.bat-dt*.004);}
+      else{glider.motor=false;glider.vs=-.016;}
+      glider.alt=Math.min(.9,Math.max(.12,glider.alt+glider.vs*dt*6));
+    }
+    // glider trail
+    const gx=glider.x*w, gy=ground-glider.alt*(ground-58);
+    ctx.strokeStyle='rgba(233,242,250,.25)';ctx.setLineDash([3,5]);ctx.beginPath();
+    for(let i=60;i>0;i--){const tx=(glider.x-i*.004+1)%1;let ta=glider.alt;ctx.lineTo(tx*w,gy);} // simple flat trail hint
+    ctx.stroke();ctx.setLineDash([]);
+    // glider (simple sailplane glyph)
+    ctx.save();ctx.translate(gx,gy);ctx.rotate(glider.vs>0? -0.18 : 0.10);
+    ctx.strokeStyle='#EAF3FA';ctx.lineWidth=2.4;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-14,0);ctx.lineTo(14,0);ctx.stroke();          // wing
+    ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-4,7);ctx.stroke();            // body
+    if(glider.motor){ctx.fillStyle='#EE7126';ctx.beginPath();ctx.arc(-6,7,3,0,7);ctx.fill();}
+    ctx.restore();
+    // HUD
+    const altM=Math.round(400+glider.alt*1600);
+    $('hudAlt').textContent=altM+' m';
+    const vsMs=(glider.vs*20).toFixed(1);
+    const hv=$('hudVar');hv.textContent=(glider.vs>=0?'+':'')+vsMs+' m/s';hv.className=glider.vs>=0?'on':'off';
+    const hm=$('hudMot');hm.textContent=glider.motor?'ON':'OFF';hm.className=glider.motor?'off':'on';
+    $('hudBat').textContent=Math.round(glider.bat*100)+'%';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

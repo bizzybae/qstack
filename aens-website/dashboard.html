@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AENS Live Demo | Mission Console Simulation</title>
+<meta name="description" content="An interactive simulation of the AENS product: the energy map, the planner's route, and two aircraft racing the same battery, one with AENS, one without.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="dash">
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot"></span>AENS</a>
+    <button class="menu-btn" onclick="document.getElementById('nl').classList.toggle('open')">Menu</button>
+    <div class="nav-links" id="nl">
+      <a href="index.html">Investors</a>
+      <a href="technology.html">Technology</a>
+      <a href="dashboard.html" class="active">Live demo</a>
+      <a href="technology.html" class="cta">How it works</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:36px">
+  <span class="tag">Mission console &middot; simulation</span>
+  <h1 style="font-size:clamp(1.7rem,4vw,2.6rem)">Two identical aircraft. One battery each.<br>Only one of them can read the sky.</h1>
+  <p class="hero-sub" style="margin-top:10px;max-width:70ch">The <b style="color:var(--thermal)">orange aircraft</b> runs AENS: it sees the energy map, detours into rising air, circles to climb with the motor off, and glides on. The <b style="color:#9FBBD3">gray aircraft</b> flies the textbook direct route with the motor holding altitude the whole way. Same patrol task, same 400 Wh pack. Watch the battery bars.</p>
+
+  <div class="dash-controls">
+    <label>AENS
+      <span class="switch on" id="swAens" role="switch" aria-checked="true" tabindex="0"><i></i></span>
+    </label>
+    <label>Convection
+      <select id="selWx" style="background:#0E2B44;color:#fff;border:1px solid var(--line-dk);border-radius:8px;padding:.4em .6em;font-family:var(--mono);font-size:12px">
+        <option value="weak">Weak day</option>
+        <option value="mod" selected>Ordinary sunny day</option>
+        <option value="strong">Strong day</option>
+      </select>
+    </label>
+    <label>Sim speed
+      <select id="selSpd" style="background:#0E2B44;color:#fff;border:1px solid var(--line-dk);border-radius:8px;padding:.4em .6em;font-family:var(--mono);font-size:12px">
+        <option value="20">20x</option>
+        <option value="60" selected>60x</option>
+        <option value="150">150x</option>
+      </select>
+    </label>
+    <button class="btn ghost" id="btnReset" style="padding:.5em 1.1em;font-size:.9rem;cursor:pointer;background:none">Reset mission</button>
+    <span id="wxNote" style="font-family:var(--mono);font-size:11px;color:#7E97AC"></span>
+  </div>
+
+  <div class="dash-grid">
+    <div class="panel">
+      <h3>Energy map &middot; top-down &middot; 14 x 9 km patrol box</h3>
+      <canvas id="mapCanvas"></canvas>
+      <div class="legend">
+        <span><b style="background:rgba(238,113,38,.8)"></b>Thermal (updraft probability)</span>
+        <span><b style="background:#EE7126"></b>AENS aircraft + planned route</span>
+        <span><b style="background:#9FBBD3"></b>Conventional aircraft, direct route</span>
+        <span><b style="background:#3AA76D"></b>Climb segment, motor off</span>
+      </div>
+      <h3 style="margin-top:18px">Altitude profile &middot; AENS aircraft</h3>
+      <canvas id="profileCanvas"></canvas>
+    </div>
+
+    <div class="inst">
+      <div class="panel">
+        <h3>AENS aircraft</h3>
+        <div class="gauge">
+          <div class="k">Battery</div>
+          <div class="v" id="aBatV">100 <small>%</small></div>
+          <div class="bar batt"><i id="aBatBar" style="width:100%"></i></div>
+        </div>
+        <div class="gauge" style="margin-top:10px">
+          <div class="k">Altitude</div>
+          <div class="v" id="aAlt">800 <small>m</small></div>
+        </div>
+        <div class="gauge" style="margin-top:10px">
+          <div class="k">Variometer</div>
+          <div class="vario"><div class="scale"><div class="needle" id="aNeedle"></div></div><span class="v" id="aVs" style="font-size:1rem">+0.0</span></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <span class="motor off" id="aMotor">MOTOR OFF</span>
+          <span class="motor off" id="aState">GLIDE</span>
+        </div>
+        <div class="gauge" style="margin-top:10px">
+          <div class="k">Energy harvested from atmosphere</div>
+          <div class="v" id="aHarv">0 <small>Wh</small></div>
+        </div>
+        <div class="gauge" style="margin-top:10px">
+          <div class="k">Motor-off share of flight</div>
+          <div class="v" id="aOffPct">0 <small>%</small></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Conventional aircraft</h3>
+        <div class="gauge">
+          <div class="k">Battery</div>
+          <div class="v" id="bBatV">100 <small>%</small></div>
+          <div class="bar batt"><i id="bBatBar" style="width:100%;background:#9FBBD3"></i></div>
+        </div>
+        <div class="gauge" style="margin-top:10px">
+          <div class="k">Status</div>
+          <div class="v" id="bStatus" style="font-size:1rem">On patrol, motor on</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Mission clock</h3>
+        <div class="gauge"><div class="k">Elapsed</div><div class="v" id="clock">00:00</div></div>
+        <div class="gauge" style="margin-top:10px"><div class="k">Scoreboard</div><div class="v" id="score" style="font-size:1rem">Both aircraft flying</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note" style="margin-top:20px">Simulation notes: both aircraft use the AENS-R1 reference model from the technology page, 25 kg, glide ratio 30:1, 0.6 m/s sink, 400 Wh pack, 226 W to hold altitude on motor, 65% powertrain efficiency. Thermals are placed randomly each reset with strengths of 1.5 to 3 m/s depending on the weather setting, and drift with the wind. Aircraft land, in the sim, at a 15% battery reserve. This is a visualization of the product's behavior, not flight test data.</p>
+  <div style="margin-top:18px"><a class="btn primary" href="technology.html">Read how the real system does this</a> <a class="btn ghost" href="index.html#roi" style="margin-left:8px">Run the ROI numbers</a></div>
+</div>
+
+<footer style="margin-top:60px">
+  <div class="wrap">
+    <p class="disclaimer" style="border-top:0;padding-top:0">Demonstration simulation. Physical constants and aircraft parameters match the derivations on the technology page; thermal encounters are randomized. Nothing on this site is an offer to sell securities or a solicitation of investment.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const map=$('mapCanvas'),prof=$('profileCanvas');
+const mctx=map.getContext('2d'),pctx=prof.getContext('2d');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// world constants (SI)
+const WX={weak:{n:4,s:1.5,note:'Few, weak thermals. AENS still saves energy but climbs are slow.'},
+          mod:{n:7,s:2.2,note:'Thermals of about 2 m/s every couple of kilometers. A normal summer afternoon.'},
+          strong:{n:10,s:3.0,note:'Strong, frequent lift. The motor becomes almost decorative.'}};
+const WORLD={w:14000,h:9000};        // meters
+const AC={m:25,g:9.81,sink:0.6,vAir:18,eta:0.65,pack:400,pHold:226,climbMotor:1.2,ceil:1800,floor:350,reserve:0.15};
+
+let sim;
+function newThermals(cfg){
+  const t=[];
+  for(let i=0;i<cfg.n;i++){
+    t.push({x:1500+Math.random()*(WORLD.w-3000),y:900+Math.random()*(WORLD.h-1800),
+            r:260+Math.random()*120,s:cfg.s*(0.75+Math.random()*0.5)});
+  }
+  return t;
+}
+function reset(){
+  const cfg=WX[$('selWx').value];
+  $('wxNote').textContent=cfg.note;
+  sim={
+    t:0,thermals:newThermals(cfg),
+    wind:{x:0.7,y:0.15},
+    a:{x:800,y:WORLD.h/2,alt:800,bat:AC.pack,motor:false,state:'GLIDE',vs:0,harv:0,offTime:0,time:0,
+       leg:1,target:null,hist:[],landed:false,circ:0},
+    b:{x:800,y:WORLD.h/2+350,alt:800,bat:AC.pack,leg:1,landed:false,landT:0},
+    aensOn:$('swAens').classList.contains('on')
+  };
+}
+function waypoint(leg){return {x: leg%2? WORLD.w-900 : 900, y: WORLD.h/2};}
+
+function stepA(dt){ // AENS aircraft
+  const a=sim.a;if(a.landed)return;
+  a.time+=dt;
+  const wp=waypoint(a.leg);
+  // find lift: inside a thermal?
+  let inTh=null;
+  for(const th of sim.thermals){const dx=a.x-th.x,dy=a.y-th.y;if(Math.hypot(dx,dy)<th.r)inTh=th;}
+  // choose behavior
+  if(sim.aensOn){
+    if(inTh && a.alt<AC.ceil && (a.state==='CLIMB'||a.alt<AC.ceil-120)){
+      a.state='CLIMB';a.motor=false;
+      a.circ+=dt*1.6;
+      const cr=110;
+      a.x=inTh.x+Math.cos(a.circ)*cr; a.y=inTh.y+Math.sin(a.circ)*cr;
+      a.vs=inTh.s-AC.sink;
+      a.alt=Math.min(AC.ceil,a.alt+a.vs*dt);
+      a.harv+=AC.m*AC.g*Math.max(0,a.vs)*dt/3600/AC.eta; // Wh of battery displaced
+      a.offTime+=dt;
+      if(a.alt>=AC.ceil-10)a.state='GLIDE';
+      return;
+    }
+    // pick target: destination, or a detour thermal if low
+    let tgt=wp;
+    if(a.alt<1000){
+      let best=null,bestCost=1e18;
+      for(const th of sim.thermals){
+        const d1=Math.hypot(th.x-a.x,th.y-a.y),d2=Math.hypot(wp.x-th.x,wp.y-th.y),dd=Math.hypot(wp.x-a.x,wp.y-a.y);
+        const detour=d1+d2-dd;
+        const gain=(AC.ceil-a.alt)*AC.m*AC.g/3600/AC.eta;          // Wh available to bank
+        const cost=(detour/AC.vAir)*(AC.pHold/3600);               // Wh a motor would burn on the detour
+        if(th.s>AC.sink+0.4 && detour<6000 && gain>2*cost && d1+detour<bestCost){bestCost=d1+detour;best=th;}
+      }
+      if(best)tgt=best;
+    }
+    // fly toward tgt
+    const d=Math.hypot(tgt.x-a.x,tgt.y-a.y)||1;
+    a.x+=(tgt.x-a.x)/d*AC.vAir*dt; a.y+=(tgt.y-a.y)/d*AC.vAir*dt;
+    if(a.alt<=AC.floor+30){a.state='MOTOR CLIMB';a.motor=true;a.vs=AC.climbMotor;
+      a.alt+=a.vs*dt;a.bat-=(AC.pHold*1.6)/3600*dt;
+      if(a.alt>700){a.motor=false;a.state='GLIDE';}
+    } else {a.state=inTh?'LIFT AHEAD':'GLIDE';a.motor=false;a.vs=inTh?(inTh.s-AC.sink)*0.4:-AC.sink;
+      a.alt+=a.vs*dt;a.offTime+=dt;}
+  } else {
+    // AENS switched off: behave like conventional
+    const d=Math.hypot(wp.x-a.x,wp.y-a.y)||1;
+    a.x+=(wp.x-a.x)/d*AC.vAir*dt;a.y+=(wp.y-a.y)/d*AC.vAir*dt;
+    a.motor=true;a.state='DIRECT, MOTOR ON';a.vs=0;a.bat-=AC.pHold/3600*dt;
+  }
+  if(Math.hypot(wp.x-a.x,wp.y-a.y)<250)a.leg++;
+  if(a.bat<=AC.pack*AC.reserve){a.landed=true;a.state='LANDED AT RESERVE';a.motor=false;}
+  a.hist.push(a.alt);if(a.hist.length>360)a.hist.shift();
+}
+function stepB(dt){ // conventional aircraft
+  const b=sim.b;if(b.landed)return;
+  b.landT+=dt;
+  const wp={x: b.leg%2? WORLD.w-900 : 900, y: WORLD.h/2+350};
+  const d=Math.hypot(wp.x-b.x,wp.y-b.y)||1;
+  b.x+=(wp.x-b.x)/d*AC.vAir*dt;b.y+=(wp.y-b.y)/d*AC.vAir*dt;
+  b.bat-=AC.pHold/3600*dt;
+  if(Math.hypot(wp.x-b.x,wp.y-b.y)<250)b.leg++;
+  if(b.bat<=AC.pack*AC.reserve)b.landed=true;
+}
+
+function fmtClock(s){const m=Math.floor(s/60),h=Math.floor(m/60);return (h?h+':':'')+String(m%60).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');}
+
+function draw(){
+  // ---- map ----
+  const w=map.offsetWidth,h=map.offsetHeight;
+  if(map.width!==w*devicePixelRatio){map.width=w*devicePixelRatio;map.height=h*devicePixelRatio;}
+  mctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  const sx=w/WORLD.w,sy=h/WORLD.h;
+  mctx.clearRect(0,0,w,h);
+  // grid
+  mctx.strokeStyle='rgba(159,187,211,.10)';mctx.lineWidth=1;
+  for(let x=0;x<=WORLD.w;x+=2000){mctx.beginPath();mctx.moveTo(x*sx,0);mctx.lineTo(x*sx,h);mctx.stroke();}
+  for(let y=0;y<=WORLD.h;y+=2000){mctx.beginPath();mctx.moveTo(0,y*sy);mctx.lineTo(w,y*sy);mctx.stroke();}
+  // thermals as probability blobs
+  for(const th of sim.thermals){
+    const g=mctx.createRadialGradient(th.x*sx,th.y*sy,2,th.x*sx,th.y*sy,th.r*sx*1.6);
+    g.addColorStop(0,'rgba(238,113,38,.55)');g.addColorStop(1,'rgba(238,113,38,0)');
+    mctx.fillStyle=g;mctx.beginPath();mctx.arc(th.x*sx,th.y*sy,th.r*sx*1.6,0,7);mctx.fill();
+    mctx.strokeStyle='rgba(238,113,38,.5)';mctx.setLineDash([4,4]);
+    mctx.beginPath();mctx.arc(th.x*sx,th.y*sy,th.r*sx,0,7);mctx.stroke();mctx.setLineDash([]);
+    mctx.fillStyle='rgba(255,255,255,.75)';mctx.font='10px IBM Plex Mono';
+    mctx.fillText('+'+th.s.toFixed(1)+' m/s',th.x*sx+6,th.y*sy-6);
+  }
+  // patrol endpoints
+  [[900,WORLD.h/2],[WORLD.w-900,WORLD.h/2]].forEach(p=>{
+    mctx.strokeStyle='#9FBBD3';mctx.strokeRect(p[0]*sx-6,p[1]*sy-6,12,12);
+  });
+  // conventional route
+  mctx.strokeStyle='rgba(159,187,211,.5)';mctx.setLineDash([6,6]);
+  mctx.beginPath();mctx.moveTo(900*sx,(WORLD.h/2+350)*sy);mctx.lineTo((WORLD.w-900)*sx,(WORLD.h/2+350)*sy);mctx.stroke();mctx.setLineDash([]);
+  // aircraft B
+  const b=sim.b;
+  mctx.fillStyle=b.landed?'rgba(159,187,211,.4)':'#9FBBD3';
+  drawPlane(mctx,b.x*sx,b.y*sy,b.leg%2?0:Math.PI);
+  // AENS planned path hint: to current target
+  const a=sim.a;
+  // aircraft A trail state color
+  mctx.fillStyle=a.landed?'rgba(238,113,38,.4)':(a.state==='CLIMB'?'#3AA76D':'#EE7126');
+  drawPlane(mctx,a.x*sx,a.y*sy,a.leg%2?0:Math.PI,true);
+  // ---- profile ----
+  const pw=prof.offsetWidth,ph=prof.offsetHeight;
+  if(prof.width!==pw*devicePixelRatio){prof.width=pw*devicePixelRatio;prof.height=ph*devicePixelRatio;}
+  pctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  pctx.clearRect(0,0,pw,ph);
+  pctx.strokeStyle='rgba(159,187,211,.15)';
+  [500,1000,1500].forEach(al=>{const y=ph-(al/AC.ceil)*(ph-14)-7;pctx.beginPath();pctx.moveTo(0,y);pctx.lineTo(pw,y);pctx.stroke();
+    pctx.fillStyle='rgba(159,187,211,.5)';pctx.font='9px IBM Plex Mono';pctx.fillText(al+' m',4,y-3);});
+  pctx.strokeStyle='#EE7126';pctx.lineWidth=2;pctx.beginPath();
+  sim.a.hist.forEach((al,i)=>{const x=i/359*pw,y=ph-(al/AC.ceil)*(ph-14)-7;i?pctx.lineTo(x,y):pctx.moveTo(x,y);});
+  pctx.stroke();
+}
+function drawPlane(ctx,x,y,rot,big){
+  ctx.save();ctx.translate(x,y);ctx.rotate(rot);
+  const s=big?1.25:1;
+  ctx.beginPath();
+  ctx.moveTo(9*s,0);ctx.lineTo(-5*s,-8*s);ctx.lineTo(-2*s,0);ctx.lineTo(-5*s,8*s);ctx.closePath();ctx.fill();
+  ctx.restore();
+}
+
+function hud(){
+  const a=sim.a,b=sim.b;
+  $('aBatV').innerHTML=Math.round(a.bat/AC.pack*100)+' <small>%</small>';
+  $('aBatBar').style.width=(a.bat/AC.pack*100)+'%';
+  $('aAlt').innerHTML=Math.round(a.alt)+' <small>m</small>';
+  $('aVs').textContent=(a.vs>=0?'+':'')+a.vs.toFixed(1);
+  $('aNeedle').style.left=(50+Math.max(-3,Math.min(3,a.vs))/3*46)+'%';
+  const am=$('aMotor');am.textContent=a.motor?'MOTOR ON':'MOTOR OFF';am.className='motor '+(a.motor?'on':'off');
+  const as=$('aState');as.textContent=a.state;as.className='motor '+(a.state==='CLIMB'?'off':'on');
+  $('aHarv').innerHTML=Math.round(a.harv)+' <small>Wh</small>';
+  $('aOffPct').innerHTML=(a.time?Math.round(a.offTime/a.time*100):0)+' <small>%</small>';
+  $('bBatV').innerHTML=Math.round(b.bat/AC.pack*100)+' <small>%</small>';
+  $('bBatBar').style.width=(b.bat/AC.pack*100)+'%';
+  $('bStatus').textContent=b.landed?'Landed at reserve after '+fmtClock(b.landT):'On patrol, motor on';
+  $('clock').textContent=fmtClock(sim.t);
+  const sc=$('score');
+  if(b.landed&&!a.landed)sc.textContent='Conventional aircraft is down. AENS aircraft still flying at '+Math.round(a.bat/AC.pack*100)+'% battery.';
+  else if(a.landed&&b.landed)sc.textContent='Both landed. AENS flew '+fmtClock(a.time)+' vs '+fmtClock(b.landT)+'.';
+  else if(a.landed)sc.textContent='AENS aircraft landed (try a stronger weather setting).';
+  else sc.textContent='Both aircraft flying';
+}
+
+let lastTs=0;
+function loop(ts){
+  const real=Math.min(.05,(ts-lastTs)/1000)||0;lastTs=ts;
+  const mult=+$('selSpd').value;
+  let dt=reduced?0:real*mult;
+  // substep for stability
+  while(dt>0){const step=Math.min(1.0,dt);sim.t+=step;stepA(step);stepB(step);dt-=step;}
+  draw();hud();
+  requestAnimationFrame(loop);
+}
+
+$('swAens').addEventListener('click',function(){this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'));sim.aensOn=this.classList.contains('on');});
+$('swAens').addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();this.click();}});
+$('selWx').addEventListener('change',reset);
+$('btnReset').addEventListener('click',reset);
+reset();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

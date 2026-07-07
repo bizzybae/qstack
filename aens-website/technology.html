@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AENS Technology | Physics, Architecture, and Evidence</title>
+<meta name="description" content="Full derivations, sensor architecture, prior flight demonstrations, and confidence levels behind the Atmospheric Energy Navigation System.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot"></span>AENS</a>
+    <button class="menu-btn" onclick="document.getElementById('nl').classList.toggle('open')">Menu</button>
+    <div class="nav-links" id="nl">
+      <a href="index.html">Investors</a>
+      <a href="technology.html" class="active">Technology</a>
+      <a href="dashboard.html">Live demo</a>
+      <a href="dashboard.html" class="cta">Fly the demo</a>
+    </div>
+  </div>
+</nav>
+
+<header class="dark" style="padding:64px 0 48px">
+  <div class="wrap">
+    <span class="tag">Technology</span>
+    <h1 style="font-size:clamp(2rem,5vw,3.4rem)">The physics, the architecture,<br>and the receipts</h1>
+    <p class="hero-sub" style="margin-top:14px">Everything on the investor page traces back to a derivation or a flight demonstration on this page. Claims carry confidence labels: <span class="conf hi">High</span> means textbook physics or replicated flight results, <span class="conf md">Modeled</span> means an engineering estimate slated for early flight validation.</p>
+    <div class="tech-toc">
+      <a href="#sources">Energy sources</a>
+      <a href="#math">The math</a>
+      <a href="#arch">Architecture</a>
+      <a href="#sensors">Sensors</a>
+      <a href="#prior">Prior flights</a>
+      <a href="#tiers">Performance tiers</a>
+      <a href="#open">Open source</a>
+    </div>
+  </div>
+</header>
+
+<section class="tech-sec" id="sources">
+  <div class="wrap">
+    <span class="tag">Where the energy comes from</span>
+    <h2>Four confirmed atmospheric energy sources</h2>
+    <div class="grid2">
+      <div>
+        <h3>Thermals <span class="conf hi">High</span></h3>
+        <p>Sunlight heats the ground unevenly. Warm patches launch buoyant columns of rising air that fill the lowest 1 to 3 km of the atmosphere on convective days. Measured core updrafts run 1 to 5 m/s routinely, and 8 to 10 m/s in strong desert conditions. Thermals recur every few kilometers for six to eight hours on a good day and are often capped by cumulus clouds, which act as visible markers the aircraft's sky camera can track.</p>
+        <h3 style="margin-top:24px">Ridge lift <span class="conf hi">High</span></h3>
+        <p>Wind hitting a slope deflects upward. To first order the vertical component is the wind speed times the sine of the slope angle, so a 10 m/s breeze on a moderate ridge yields 2 to 4 m/s of lift along the whole upwind face, day or night, in any season. Because it is anchored to terrain, ridge lift can be mapped once and exploited forever. Ridge routes have carried crewed sailplanes more than 1,500 km in a day.</p>
+      </div>
+      <div>
+        <h3>Mountain wave <span class="conf hi">High</span></h3>
+        <p>Stable air flowing over a mountain range sets up standing waves downwind with smooth lift of 3 to 10 m/s reaching far above the terrain. Wave lift carried the unpowered Perlan 2 research sailplane to roughly 76,000 ft, higher than airliners fly. Wave is forecastable from standard weather model output.</p>
+        <h3 style="margin-top:24px">Wind gradients <span class="conf hi">High</span></h3>
+        <p>Wind speed changes with height. Crossing that shear layer with the right repeating geometry extracts kinetic energy from the gradient itself, the trick albatrosses use to cross oceans while barely flapping. Radio-controlled gliders using the same physics have exceeded 850 km/h with zero propulsion <span class="conf md">Modeled</span> on the exact record figure; the phenomenon itself is textbook. AENS treats dynamic soaring as a later-phase capability for over-water missions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tech-sec light" id="math">
+  <div class="wrap">
+    <span class="tag">The math, end to end</span>
+    <h2>Reference aircraft: every number on this site, derived</h2>
+    <p class="lead">The open reference design, AENS-R1, is a 25 kg electric sailplane-class drone: 5.2 m span, best glide ratio 30:1 at 65 km/h, minimum sink 0.6 m/s, a 2.0 kg battery pack storing 400 Wh, and a combined motor, controller, and propeller climb efficiency of 65 percent.</p>
+
+    <h3 style="margin-top:30px">1. What level flight costs <span class="conf hi">High</span></h3>
+    <div class="eq">P_air = m &middot; g &middot; v_sink = 25 kg &middot; 9.81 m/s&sup2; &middot; 0.6 m/s = <b>147 W</b><br>
+P_battery = P_air / &eta; = 147 / 0.65 &asymp; <b>226 W</b><br>
+Endurance, motor always on = 400 Wh / 226 W &asymp; <b>1.8 hours</b></div>
+    <p>That 1.8 hours is the honest baseline: what this aircraft does with no atmospheric help, all day, every day.</p>
+
+    <h3 style="margin-top:30px">2. What one thermal is worth <span class="conf hi">High</span></h3>
+    <div class="eq">Climb rate in a 2.0 m/s thermal = 2.0 &minus; 0.6 = <b>1.4 m/s</b> &rarr; 1,000 m in about 12 minutes<br>
+Energy banked = m &middot; g &middot; h = 25 &middot; 9.81 &middot; 1,000 = 245 kJ = <b>68 Wh mechanical</b><br>
+Battery equivalent = 68 / 0.65 &asymp; <b>105 Wh</b> = <b>26% of the pack</b>, per climb<br>
+Glide from that altitude = 1,000 m &middot; 30 = <b>30 km of forward travel, free</b></div>
+    <p>On an ordinary convective afternoon the aircraft can repeat this several times per hour. Note what is not being claimed: no perpetual motion, no violation of anything. The energy is solar. The atmosphere is the delivery system. The aircraft is just finally carrying a receiver.</p>
+
+    <h3 style="margin-top:30px">3. What that does to endurance <span class="conf md">Modeled</span></h3>
+    <div class="eq">Motor-off fraction f in moderate convection &asymp; 0.5 to 0.7 (matches prior government flight campaigns)<br>
+Average draw = (1 &minus; f) &middot; 226 W &asymp; 68 to 113 W &rarr; endurance &asymp; <b>3.5 to 5.9 hours</b>, a <b>2x to 3x multiplier</b><br>
+All-weather floor, no thermals used: optimal speed-to-fly and wind routing &asymp; <b>5 to 15% savings</b></div>
+    <p>The multiplier is the modeled quantity, scheduled as the first flight-test milestone. The individual ingredients, updraft strength, sink rate, and mgh, are all high confidence.</p>
+  </div>
+</section>
+
+<section class="tech-sec" id="arch">
+  <div class="wrap">
+    <span class="tag">System architecture</span>
+    <h2>Four layers, no research breakthroughs required</h2>
+    <div class="cards3" style="grid-template-columns:repeat(2,1fr);margin-top:24px" id="archCards">
+      <div class="card">
+        <h3><span class="mono">L1 /</span> Sensing and estimation</h3>
+        <p>The aircraft cannot see the wind, but it can feel it. Inertial velocity from GNSS/INS minus air-relative velocity from a multi-hole probe equals the 3D wind vector at the aircraft's position. Subtract the aircraft's known sink rate and what remains is the vertical motion of the air itself. This inversion is standard flight mechanics, flown in research systems for two decades.</p>
+      </div>
+      <div class="card">
+        <h3><span class="mono">L2 /</span> The probabilistic energy map</h3>
+        <p>The surrounding sky is divided into cells, roughly 100 to 500 m across, each holding an estimate of lift, wind, and turbulence plus an uncertainty. Three streams feed it: the aircraft's own precise measurements, camera observations of hot ground and cumulus, and priors from weather models, terrain physics, and the fleet's history. The output is calibrated probability, exactly what a rational planner needs.</p>
+      </div>
+      <div class="card">
+        <h3><span class="mono">L3 /</span> The energy-optimal planner</h3>
+        <p>A receding-horizon optimizer chooses routes that minimize battery use subject to arrival time, terrain, airspace, turbulence limits, and one inviolable rule: the reserve needed to finish the mission with zero atmospheric help is never spent. It generalizes MacCready speed-to-fly theory, the 1940s optimal-control result that still wins gliding championships, from a scalar rule into a full spatial field optimization. Learned models propose; a deterministic, auditable safety layer disposes.</p>
+      </div>
+      <div class="card">
+        <h3><span class="mono">L4 /</span> The fleet learning network</h3>
+        <p>Every flight uploads anonymized observations: where lift was found, how strong, at what altitude and hour. Within an operating area, one aircraft's discovery routes the next aircraft within minutes. Over seasons the fleet builds an energy climatology: the south slope that triggers at 1 pm, the ridge that works in any northwest wind. Algorithms can be copied. Years of flown data cannot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tech-sec light" id="sensors">
+  <div class="wrap">
+    <span class="tag">Hardware</span>
+    <h2>The sensor kit: modest, commercial, calibrated</h2>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Sensor</th><th>What it contributes</th><th>Class</th></tr></thead>
+      <tbody>
+        <tr><td>RTK GNSS + INS, dual antenna</td><td>Centimeter-grade position, inertial velocity, heading</td><td>Survey-grade module</td></tr>
+        <tr><td>Multi-hole air data probe</td><td>Airspeed, angle of attack, sideslip: the air-relative velocity vector</td><td>Research UAV grade</td></tr>
+        <tr><td>Barometric pair, total-energy variometer</td><td>Climb and sink net of the aircraft's own maneuvering</td><td>Commodity MEMS</td></tr>
+        <tr><td>Fast temperature and humidity</td><td>Thermal boundaries: rising air is warmer and moister than its surroundings</td><td>Commodity</td></tr>
+        <tr><td>Downward thermal IR camera</td><td>Which ground is hot, the trigger map for thermals</td><td>Uncooled microbolometer</td></tr>
+        <tr><td>Sky camera + onboard vision</td><td>Cumulus detection and tracking, each cloud a lift marker</td><td>Commodity global shutter</td></tr>
+        <tr><td>Optional short-range LiDAR</td><td>Terrain clearance margins for ridge soaring</td><td>Commercial UAV LiDAR</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">No single sensor can "see" a thermal. Fused, they estimate where rising air is likely and confirm the moment the aircraft enters it. The product value is calibration and flight proof, not exotic components.</p>
+  </div>
+</section>
+
+<section class="tech-sec" id="prior">
+  <div class="wrap">
+    <span class="tag">Prior flight demonstrations</span>
+    <h2>The receipts <span class="conf hi">High</span></h2>
+    <div class="grid2" style="align-items:start">
+      <div>
+        <div class="icon-row"><div class="ic">05</div><div><strong>NASA Dryden, 2005 to 2007.</strong> An autonomous motorized sailplane detected thermals from onboard energy-state estimates and centered them without human help, gaining meaningful altitude per encounter.</div></div>
+        <div class="icon-row"><div class="ic">15</div><div><strong>US Naval Research Laboratory, ALOFT.</strong> Multi-hour small drone flights with the propulsion system off for the majority of flight time, plus cooperative soaring in which two aircraft shared thermal locations, the embryo of the fleet map.</div></div>
+        <div class="icon-row"><div class="ic">18</div><div><strong>Nature, 2018.</strong> A reinforcement learning policy trained in real atmospheric turbulence soared a glider in the field. Microsoft Research flew AI-piloted sailplanes with Bayesian planning the same year.</div></div>
+      </div>
+      <div>
+        <h3>The three gaps every prior effort left open</h3>
+        <p><strong>1. No persistent shared map.</strong> Each research flight started ignorant. The compounding dataset was never built.</p>
+        <p style="margin-top:12px"><strong>2. No fusion with weather models.</strong> Kilometer-scale forecasts of convective strength already exist and were ignored as priors.</p>
+        <p style="margin-top:12px"><strong>3. No product.</strong> No retrofit kits, no operator interfaces, no certification-conscious software architecture, no business model. The science is done. The productization is the opportunity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tech-sec light" id="tiers">
+  <div class="wrap">
+    <span class="tag">Performance, honestly stated</span>
+    <h2>Claims tiered by weather</h2>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Condition class</th><th>Mechanism</th><th>Benefit</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td>Any weather, day or night</td><td>Optimal speed-to-fly and wind-aware routing</td><td class="num">5 to 15% energy saved</td><td><span class="conf md">Modeled</span></td></tr>
+        <tr><td>Ordinary daytime convection over land</td><td>Opportunistic thermal and ridge exploitation</td><td class="num">2x to 3x endurance</td><td><span class="conf md">Modeled</span>, mechanism <span class="conf hi">High</span></td></tr>
+        <tr><td>Strong convection, ridge, or wave</td><td>Sustained soaring, motor for launch and recovery only</td><td class="num">Quasi-indefinite daytime</td><td><span class="conf hi">High</span> for crewed gliders, <span class="conf md">Modeled</span> for autonomy</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Atmospheric energy is intermittent: weak at night, over cold water, and under overcast. That is why the first markets are daytime overland missions, why the planner treats free energy as a bonus rather than a budget line, and why the system degrades gracefully to a normal electric aircraft with better routing, never below it.</p>
+  </div>
+</section>
+
+<section class="tech-sec" id="open">
+  <div class="wrap">
+    <span class="tag">Open source</span>
+    <h2>What is open, what is not</h2>
+    <div class="compare" style="margin-top:20px">
+      <div class="col old">
+        <h3><span>Apache-2.0, public</span>Open</h3>
+        <ul>
+          <li>Wind and thermal estimation stack</li>
+          <li>Energy-optimal planner and safety supervisor</li>
+          <li>AENS-R1 reference airframe and sensor schematics</li>
+          <li>Simulation environment and public soaring-log datasets</li>
+        </ul>
+      </div>
+      <div class="col new">
+        <h3><span>The business</span>Commercial</h3>
+        <ul>
+          <li class="hot">The hosted fleet energy map: flown, not forkable</li>
+          <li>Calibrated, flight-proven certified sensor kits</li>
+          <li>OEM integration engineering and defense programs</li>
+          <li>Enterprise support, uptime, and data guarantees</li>
+        </ul>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:24px;max-width:64ch">Openness is the adoption engine and the audit trail defense buyers require. The moat was never the code. It is the map, and the map has to be flown into existence.</p>
+    <div style="margin-top:24px"><a class="btn primary" href="dashboard.html">See the product simulation</a> <a class="btn ghost" href="index.html#economics" style="margin-left:8px">Back to the economics</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><a class="brand" href="index.html" style="color:#fff"><span class="dot"></span>AENS</a></div>
+    <div><a href="index.html">Investors</a> &nbsp;&middot;&nbsp; <a href="technology.html">Technology</a> &nbsp;&middot;&nbsp; <a href="dashboard.html">Live demo</a></div>
+    <p class="disclaimer">Derivations use the AENS-R1 reference parameters stated above. High confidence marks textbook physics or replicated flight results; Modeled marks engineering estimates scheduled for early flight validation. Nothing on this site is an offer to sell securities or a solicitation of investment.</p>
+  </div>
+</footer>
+
+</body>
+</html>
